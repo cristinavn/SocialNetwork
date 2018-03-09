@@ -1,14 +1,10 @@
 package com.uniovi.services;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.uniovi.entities.Mark;
 import com.uniovi.entities.User;
 
 @Service
@@ -18,20 +14,20 @@ public class InsertSampleDataService {
 
 	@PostConstruct
 	public void init() {
-		User user1 = new User("99999990A", "Pedro", "Díaz");
+		User user1 = new User("jorge@prueba.es", "Jorge");
 		user1.setPassword("123456");
-		User user2 = new User("99999991B", "Lucas", "Núñez");
+		User user2 = new User("lucas@prueba.es", "Lucas");
 		user2.setPassword("123456");
-		User user3 = new User("99999992C", "María", "Rodríguez");
+		User user3 = new User("maria@prueba.es", "María");
 		user3.setPassword("123456");
-		User user4 = new User("99999993D", "Marta", "Almonte");
+		User user4 = new User("marta@prueba.es", "Marta");
 		user4.setPassword("123456");
-		User user5 = new User("99999977E", "Pelayo", "Valdes");
+		User user5 = new User("adrian@prueba.es", "Adrián");
 		user5.setPassword("123456");
-		User user6 = new User("99999988F", "Edward", "Núñez");
+		User user6 = new User("vicente@prueba.es", "Vicente");
 		user6.setPassword("123456");
 
-		Set user1Marks = new HashSet<Mark>() {
+	/*	Set user1Marks = new HashSet<Mark>() {
 			{
 				add(new Mark("Nota A1", 10.0, user1));
 				add(new Mark("Nota A2", 9.0, user1));
@@ -39,7 +35,7 @@ public class InsertSampleDataService {
 				add(new Mark("Nota A4", 6.5, user1));
 			}
 		};
-		user1.setMarks(user1Marks);
+		user1.setFriends(user1Marks);
 		Set user2Marks = new HashSet<Mark>() {
 			{
 				add(new Mark("Nota B1", 5.0, user2));
@@ -48,7 +44,7 @@ public class InsertSampleDataService {
 				add(new Mark("Nota B4", 3.5, user2));
 			}
 		};
-		user2.setMarks(user2Marks);
+		user2.setFriends(user2Marks);
 		Set user3Marks = new HashSet<Mark>() {
 			{
 				;
@@ -57,7 +53,7 @@ public class InsertSampleDataService {
 				add(new Mark("Nota C3", 7.0, user3));
 			}
 		};
-		user3.setMarks(user3Marks);
+		user3.setFriends(user3Marks);
 		Set user4Marks = new HashSet<Mark>() {
 			{
 				add(new Mark("Nota D1", 10.0, user4));
@@ -65,7 +61,7 @@ public class InsertSampleDataService {
 				add(new Mark("Nota D3", 9.0, user4));
 			}
 		};
-		user4.setMarks(user4Marks);
+		user4.setFriends(user4Marks);*/
 		usersService.addUser(user1);
 		usersService.addUser(user2);
 		usersService.addUser(user3);

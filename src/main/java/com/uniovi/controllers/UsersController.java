@@ -88,7 +88,7 @@ public class UsersController {
 			return "signup";
 		}
 		usersService.addUser(user);
-		securityService.autoLogin(user.getDni(), user.getPasswordConfirm());
+		securityService.autoLogin(user.getEmail(), user.getPasswordConfirm());
 		return "redirect:home";
 	}
 
@@ -100,9 +100,9 @@ public class UsersController {
 	@RequestMapping(value = { "/home" }, method = RequestMethod.GET)
 	public String home(Model model) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String dni = auth.getName();
-		User activeUser = usersService.getUserByDni(dni);
-		model.addAttribute("markList", activeUser.getMarks());
+		String email = auth.getName();
+		User activeUser = usersService.getUserByEmail(email);
+		//model.addAttribute("markList", activeUser.getFriends());
 		return "home";
 	}
 

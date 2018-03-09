@@ -8,6 +8,13 @@ target/
 .project
 .settings
 .springBeans
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
 
 ### IntelliJ IDEA ###
 .idea
@@ -22,3 +29,6 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+
+### Compiled class file ###
+*.class

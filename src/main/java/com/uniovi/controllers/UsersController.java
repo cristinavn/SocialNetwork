@@ -37,11 +37,9 @@ public class UsersController {
 	@RequestMapping("/user/list")
 	public String getList(Model model, Pageable pageable, Principal principal, 
 			@RequestParam(value = "", required=false) String searchText){
-		String email = principal.getName(); // DNI es el name de la autenticación
-		User user = usersService.getUserByEmail(email);
 		Page<User> users = new PageImpl<User>(new LinkedList<User>());
 		if (searchText != null && !searchText.isEmpty()) {
-			users = usersService.searchUsersByNameAndEmail(pageable, searchText, user);
+			users = usersService.searchUsersByNameAndEmail(pageable, searchText);
 		} else {
 			users = usersService.getUsers(pageable);
 		}

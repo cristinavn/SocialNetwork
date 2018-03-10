@@ -6,14 +6,13 @@
 	<nav th:replace="fragments/nav" />
 	<div class="container">
 		<h2 th:text="#{user.list.header}"></h2>
-		<!--  <form class="navbar-form" action="/user/list">
+		<form class="navbar-form" action="/user/list">
 			<div class="form-group">
 				<input name="searchText" type="text" class="form-control" size="50"
-					placeholder="Buscar por nombre o apellido del alumno">
+					placeholder="Buscar por nombre o email del alumno">
 			</div>
-			<button type="submit" class="btn btn-default">Buscar</button>
-		</form>-->
-		<p th:text="#{user.list.intro}"></p>
+			<button type="submit" class="btn btn-default" th:text="#{search}">Buscar</button>
+		</form>
 		<button type="button" id="updateButton" class="btn btn-default"
 			th:text="#{update}"></button>
 		<script th:inline="javascript">

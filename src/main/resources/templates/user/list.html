@@ -6,34 +6,46 @@
 	<nav th:replace="fragments/nav" />
 	<div class="container">
 		<h2 th:text="#{user.list.header}"></h2>
-		<p th:text="#{user.list.intro}">Los usuarios que actualmente figuran en el sistema son los
-			siguientes:</p>
+		<!--  <form class="navbar-form" action="/user/list">
+			<div class="form-group">
+				<input name="searchText" type="text" class="form-control" size="50"
+					placeholder="Buscar por nombre o apellido del alumno">
+			</div>
+			<button type="submit" class="btn btn-default">Buscar</button>
+		</form>-->
+		<p th:text="#{user.list.intro}"></p>
+		<button type="button" id="updateButton" class="btn btn-default"
+			th:text="#{update}"></button>
+		<script th:inline="javascript">
+ 		/*<![CDATA[*/
+			$("#updateButton").click(function() {
+				var numberPage = [[${param.page}]];
+				 var urlUpdate = '/user/list/update';
+				 if ( numberPage != null ){
+				 	urlUpdate += "?page="+numberPage[0];
+				 }
+				 $("#tableUsers").load(urlUpdate);
+			});
+			/*]]>*/
+		</script>
+		<p th:text="#{user.list}">Listado usuarios</p>
 		<div class="table-responsive">
-			<!-- <table class="table table-hover">
+			<table class="table table-hover" th:fragment="tableUsers" id="tableUsers">
 				<thead>
 					<tr>
-						<th th:text="#{user.dni}">DNI</th>
-						<th th:text="#{user.name}">Nombre</th>
-						<th th:text="#{user.lastName}">Apellidos</th>
-						<th class="col-md-1"></th>
-						<th class="col-md-1"></th>
-						<th class="col-md-1"></th>
-						<th class="col-md-1"></th>
-						<th class="col-md-1"></th>
+						<th class="col-md-4" th:text="#{user.name}">Nombre</th>
+						<th th:text="#{user.email}">Email</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="user : ${usersList}">
-						<td th:text="${user.dni}">71888888X</td>
-						<td th:text="${user.name}">Nombre del alumno</td>
-						<td th:text="${user.lastName}">Apellidos del alumno</td>
-						<td><a th:href="${'/user/details/' + user.id}" th:text="#{details}">detalles</a></td>
-						<td><a th:href="${'/user/edit/' + user.id}"  th:text="#{update}">modificar</a></td>
-						<td><a th:href="${'/user/delete/' + user.id}" th:text="#{delete}">eliminar</a></td>
+						<td  class="text-left" th:text="${user.name}">Cris</td>
+						<td  class="text-left" th:text="${user.email}">cris@x.es</td>
 					</tr>
 				</tbody>
-			</table> -->
+			</table>
 		</div>
+		<footer th:replace="fragments/pagination" />
 	</div>
 	<footer th:replace="fragments/footer" />
 </body>

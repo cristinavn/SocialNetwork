@@ -14,17 +14,17 @@ public class InsertSampleDataService {
 
 	@PostConstruct
 	public void init() {
-		User user1 = new User("jorge@prueba.es", "Jorge");
+		User user1 = new User("jorge@prueba.es", "Jorge Fernández");
 		user1.setPassword("123456");
-		User user2 = new User("lucas@prueba.es", "Lucas");
+		User user2 = new User("lucas@prueba.es", "Lucas Fernández");
 		user2.setPassword("123456");
-		User user3 = new User("maria@prueba.es", "María");
+		User user3 = new User("maria@prueba.es", "María Fernández");
 		user3.setPassword("123456");
-		User user4 = new User("marta@prueba.es", "Marta");
+		User user4 = new User("marta@prueba.es", "Marta Fernández");
 		user4.setPassword("123456");
-		User user5 = new User("adrian@prueba.es", "Adrián");
+		User user5 = new User("adrian@prueba.es", "Adrián Fernández");
 		user5.setPassword("123456");
-		User user6 = new User("vicente@prueba.es", "Vicente");
+		User user6 = new User("vicente@prueba.es", "Vicente Fernández");
 		user6.setPassword("123456");
 
 	/*	Set user1Marks = new HashSet<Mark>() {

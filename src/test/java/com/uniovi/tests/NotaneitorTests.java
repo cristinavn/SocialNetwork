@@ -10,21 +10,19 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.uniovi.tests.pageobjects.PO_HomeView;
 import com.uniovi.tests.pageobjects.PO_LoginView;
-import com.uniovi.tests.pageobjects.PO_PrivateView;
 import com.uniovi.tests.pageobjects.PO_Properties;
 import com.uniovi.tests.pageobjects.PO_RegisterView;
 import com.uniovi.tests.pageobjects.PO_SerachView;
 import com.uniovi.tests.pageobjects.PO_View;
 import com.uniovi.tests.util.SeleniumUtils;
 
-//Ordenamos las pruebas por el nombre del método
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class NotaneitorTests {
 
@@ -67,34 +65,11 @@ public class NotaneitorTests {
 		driver.quit();
 	}
 
-	//PR01. Acceder a la página principal /
-	@Test
-	public void AccederPáginaPrincipal() {
-		PO_HomeView.checkWelcome(driver, PO_Properties.getSPANISH());
-	}
 
-	//PR02. Opción de navegación. Pinchar en el enlace Registro en la página home
-	@Test
-	public void AccederRegistro() {
-		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
-	}
-
-	//PR03. OPción de navegación. Pinchar en el enlace Identifícate en la página home
-	@Test
-	public void AccederIdentificacion() {
-		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-	}
-
-	//PR04. OPción de navegación. Cambio de idioma de Español a Inglés y vuelta a Español
-	@Test
-	public void CambiarIdioma() {
-		PO_HomeView.checkChangeIdiom(driver, "btnSpanish", "btnEnglish",
-				PO_Properties.getSPANISH(), PO_Properties.getENGLISH());
-	}
 
 	//PR05. Prueba del formulario de registro. Registro con datos correctos
 	@Test
-	public void RegistroCorrecto() {
+	public void RegVal() {
 		//Vamos al formulario de registro
 		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
 		//Rellenamos el formulario.
@@ -107,7 +82,7 @@ public class NotaneitorTests {
 	//PR06. Prueba del formulario de registro. DNI repetido en la BD, Nombre corto, .... pagination
 	//pagination-centered, Error.signup.email.length
 	@Test
-	public void RegistroIncorrecto() {
+	public void RegInVal() {
 		//Vamos al formulario de registro
 		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
 		//Rellenamos el formulario.
@@ -162,7 +137,7 @@ public class NotaneitorTests {
 
 	//PR07. Loguearse con exito desde el ROl de Usuario, maria@prueba.es, 123456
 	@Test
-	public void LoginCorrecto() {
+	public void InVal() {
 		//Vamos al formulario de logueo.
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		//Rellenamos el formulario
@@ -173,7 +148,7 @@ public class NotaneitorTests {
 
 	//PR08. Loguearse sin exito 
 	@Test
-	public void LoginIncorrecto() {
+	public void InInVal() {
 		//Vamos al formulario de logueo.
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		//Rellenamos el formulario
@@ -186,21 +161,32 @@ public class NotaneitorTests {
 	//PR09. Loguearse con exito desde el ROl de Usuario, maria@prueba.es, 123456 y
 	//ver los usuarios registrados
 	@Test
-	public void ListarUsuarios() {
+	public void LisUsrVal() {
 		//Vamos al formulario de logueo.
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		//Rellenamos el formulario
 		PO_LoginView.fillForm(driver, "maria@prueba.es" , "123456" );
 		//Comprobamos que entramos en la pagina privada de Alumno
 		PO_View.checkElement(driver, "text", "Lista de usuarios");
-		//Comprobamos que aparece el usuario con email jorge@prueba.es
-		PO_View.checkElement(driver, "text", "jorge@prueba.es");
+		//Contamos el número de filas de usuarios
+		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "free","//tbody/tr", PO_View.getTimeout());
+		assertTrue(elementos.size() == 5);	
+	}
+
+	//PR09. Loguearse con exito desde el ROl de Usuario, maria@prueba.es, 123456 y
+	//ver los usuarios registrados
+	@Test
+	public void LisUsrInVal() {
+		//Esperamos a aparezca la opción de listar usuarios: //a[contains(@href, 'user/list')] pero no debe aparecer
+		try{
+			List<WebElement> elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'user/list')]");
+		}catch (TimeoutException e) {}
 	}
 
 	//PR10. Loguearse con exito desde el ROl de Usuario, maria@prueba.es, 123456 y
 	//buscar a usuarios 
 	@Test
-	public void BuscarUsuarios() {
+	public void BusUsrVal() {
 		//Vamos al formulario de logueo.
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		//Rellenamos el formulario
@@ -209,9 +195,21 @@ public class NotaneitorTests {
 		PO_View.checkElement(driver, "text", "Lista de usuarios");
 		//Buscamos la cadena "ma"
 		PO_SerachView.fillForm(driver, "ma");
+		//Contamos el número de filas de usuarios 
+		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "free","//tbody/tr", PO_View.getTimeout());
+		assertTrue(elementos.size() == 2);	
 		//Comprobamos que nos aparecen dos usuarios maria@prueba.es y marta@prueba.es
 		PO_View.checkElement(driver, "text", "maria@prueba.es");
-		PO_View.checkElement(driver, "text", "marta@prueba.es");		
+		PO_View.checkElement(driver, "text", "marta@prueba.es");
+	}
+	
+	// Intentamos acceder a /user/list y rellenar el input para realizar la búsqueda y buscar
+	@Test
+	public void BusUsrInVal() {
+		try {
+			List<WebElement> elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'user/list')]");
+			PO_SerachView.fillForm(driver, "ma");
+		}catch (TimeoutException e) {}
 	}
 	/*
 	//PR12. Loguearse, comprobar que se visualizan 4 filas de notas y desconectarse usando el rol de estudiante.
@@ -314,7 +312,34 @@ public class NotaneitorTests {
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "Nota Nueva 1",PO_View.getTimeout() );
 		//Ahora nos desconectamos
 		PO_PrivateView.clickOption(driver, "logout", "text", "Identifícate");
-	}*/
+	}
+
+	//PR01. Acceder a la página principal /
+		@Test
+		public void AccederPáginaPrincipal() {
+			PO_HomeView.checkWelcome(driver, PO_Properties.getSPANISH());
+		}
+
+		//PR02. Opción de navegación. Pinchar en el enlace Registro en la página home
+		@Test
+		public void AccederRegistro() {
+			PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+		}
+
+		//PR03. OPción de navegación. Pinchar en el enlace Identifícate en la página home
+		@Test
+		public void AccederIdentificacion() {
+			PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		}
+
+		//PR04. OPción de navegación. Cambio de idioma de Español a Inglés y vuelta a Español
+		@Test
+		public void CambiarIdioma() {
+			PO_HomeView.checkChangeIdiom(driver, "btnSpanish", "btnEnglish",
+					PO_Properties.getSPANISH(), PO_Properties.getENGLISH());
+		}
+	 */
+
 
 
 }

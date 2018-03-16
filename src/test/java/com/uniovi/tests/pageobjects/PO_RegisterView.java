@@ -8,7 +8,7 @@ public class PO_RegisterView extends PO_NavView {
 
 	static public void fillForm(WebDriver driver, String dnip, String namep,
 			String passwordp, String passwordconfp) {
-		WebElement dni = driver.findElement(By.name("dni"));
+		WebElement dni = driver.findElement(By.name("email"));
 		dni.click();
 		dni.clear();
 		dni.sendKeys(dnip);

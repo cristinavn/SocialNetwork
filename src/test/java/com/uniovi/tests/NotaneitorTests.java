@@ -20,6 +20,7 @@ import com.uniovi.tests.pageobjects.PO_LoginView;
 import com.uniovi.tests.pageobjects.PO_PrivateView;
 import com.uniovi.tests.pageobjects.PO_Properties;
 import com.uniovi.tests.pageobjects.PO_RegisterView;
+import com.uniovi.tests.pageobjects.PO_SerachView;
 import com.uniovi.tests.pageobjects.PO_View;
 import com.uniovi.tests.util.SeleniumUtils;
 
@@ -36,13 +37,13 @@ public class NotaneitorTests {
 	static WebDriver driver = getDriver(PathFirefox);
 	static String URL = "http://localhost:8090";
 	public static WebDriver getDriver(String PathFirefox) {
-		//Firefox (Versi�n 46.0) sin geckodriver para Selenium 2.x.
+		//Firefox (Versión 46.0) sin geckodriver para Selenium 2.x.
 		System.setProperty("webdriver.firefox.bin",PathFirefox);
 		WebDriver driver = new FirefoxDriver();
 		return driver;
 	}
 
-	//Antes de cada prueba se navega al URL home de la aplicaci�nn
+	//Antes de cada prueba se navega al URL home de la aplicación
 	@Before
 	public void setUp(){
 		driver.navigate().to(URL);
@@ -68,124 +69,151 @@ public class NotaneitorTests {
 
 	//PR01. Acceder a la página principal /
 	@Test
-	public void PR01() {
+	public void AccederPáginaPrincipal() {
 		PO_HomeView.checkWelcome(driver, PO_Properties.getSPANISH());
 	}
 
-	//PR02. OPción de navegación. Pinchar en el enlace Registro en la página home
+	//PR02. Opción de navegación. Pinchar en el enlace Registro en la página home
 	@Test
-	public void PR02() {
+	public void AccederRegistro() {
 		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
 	}
 
-	//PR03. OPción de navegación. Pinchar en el enlace Identificate en la página home
+	//PR03. OPción de navegación. Pinchar en el enlace Identifícate en la página home
 	@Test
-	public void PR03() {
+	public void AccederIdentificacion() {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 	}
 
-	//PR04. OPción de navegación. Cambio de idioma de Español a Ingles y vuelta a Español
+	//PR04. OPción de navegación. Cambio de idioma de Español a Inglés y vuelta a Español
 	@Test
-	public void PR04() {
+	public void CambiarIdioma() {
 		PO_HomeView.checkChangeIdiom(driver, "btnSpanish", "btnEnglish",
 				PO_Properties.getSPANISH(), PO_Properties.getENGLISH());
 	}
 
-	//PR05. Prueba del formulario de registro. registro con datos correctos
+	//PR05. Prueba del formulario de registro. Registro con datos correctos
 	@Test
-	public void PR05() {
+	public void RegistroCorrecto() {
 		//Vamos al formulario de registro
 		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
 		//Rellenamos el formulario.
 		PO_RegisterView.fillForm(driver, "chema@prueba.es", "Chema", "77777",
 				"77777");
 		//Comprobamos que entramos en la sección privada
-		PO_View.checkElement(driver, "text", "Notas del usuario");
+		PO_View.checkElement(driver, "text", "Usuario autenticado como");
 	}
 
 	//PR06. Prueba del formulario de registro. DNI repetido en la BD, Nombre corto, .... pagination
-	//pagination-centered, Error.signup.dni.length
+	//pagination-centered, Error.signup.email.length
 	@Test
-	public void PR06() {
+	public void RegistroIncorrecto() {
 		//Vamos al formulario de registro
 		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
 		//Rellenamos el formulario.
-		PO_RegisterView.fillForm(driver, "chema@prueba.es", "Chema", "77777",
-				"77777");
+		PO_RegisterView.fillForm(driver, "maria@prueba.es", "Maria", "77777", "77777");
 		PO_View.getP();
-		//COmprobamos el error de DNI repetido.
+		//Comprobamos el error de email repetido.
 		PO_RegisterView.checkKey(driver, "Error.signup.email.duplicate",
 				PO_Properties.getSPANISH() );
 		//Rellenamos el formulario.
-		PO_RegisterView.fillForm(driver, "chema@prueba.es", "Chema", "77777",
+		PO_RegisterView.fillForm(driver, "chemaprueba.es", "Chema", "77777",
 				"77777");
-		//COmprobamos el error de Nombre corto .
+		//Comprobamos el error de email con formato incorrecto.
+		PO_RegisterView.checkKey(driver, "Error.signup.email.form",
+				PO_Properties.getSPANISH() );
+		//Rellenamos el formulario.
+		PO_RegisterView.fillForm(driver, "c@.es", "Chema", "77777",
+				"77777");
+		//Comprobamos el error de email con longitud inválida.
+		PO_RegisterView.checkKey(driver, "Error.signup.email.length",
+				PO_Properties.getSPANISH() );
+		//Rellenamos el formulario.
+		PO_RegisterView.fillForm(driver, "ccccccccccccccccccccc@prueba.es", "Chema", 
+				"77777","77777");
+		//Comprobamos el error de email con longitud inválida.
+		PO_RegisterView.checkKey(driver, "Error.signup.email.length",
+				PO_Properties.getSPANISH() );
+		//Rellenamos el formulario.
+		PO_RegisterView.fillForm(driver, "carlos@prueba.es", "Ca", 
+				"77777","77777");
+		//Comprobamos el error de nombre con longitud inválida.
 		PO_RegisterView.checkKey(driver, "Error.signup.name.length",
 				PO_Properties.getSPANISH() );
 		//Rellenamos el formulario.
-		PO_RegisterView.fillForm(driver, "chema@prueba.es", "Chema", "77777",
-				"77777");
+		PO_RegisterView.fillForm(driver, "carlos@prueba.es", "Ccaarrllooss Fernández Blanco", 
+				"77777","77777");
+		//Comprobamos el error de nombre con longitud inválida.
+		PO_RegisterView.checkKey(driver, "Error.signup.name.length",
+				PO_Properties.getSPANISH() );
+		//Rellenamos el formulario.
+		PO_RegisterView.fillForm(driver, "carlos@prueba.es", "Carlos Fernández", 
+				"7777","7777");
+		//Comprobamos el error de contraseña con longitud inválida.
+		PO_RegisterView.checkKey(driver, "Error.signup.password.length",
+				PO_Properties.getSPANISH() );
+		//Rellenamos el formulario.
+		PO_RegisterView.fillForm(driver, "carlos@prueba.es", "Carlos Fernández", 
+				"77778","77779");
+		//Comprobamos el error de contraseñas que no coinciden.
+		PO_RegisterView.checkKey(driver, "Error.signup.passwordConfirm.coincidence",
+				PO_Properties.getSPANISH() );
 	}
 
-	//PRN. Loguearse con exito desde el ROl de Usuario, maria@prueba.es, 123456
+	//PR07. Loguearse con exito desde el ROl de Usuario, maria@prueba.es, 123456
 	@Test
-	public void PR07() {
+	public void LoginCorrecto() {
 		//Vamos al formulario de logueo.
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		//Rellenamos el formulario
 		PO_LoginView.fillForm(driver, "maria@prueba.es" , "123456" );
 		//COmprobamos que entramos en la pagina privada de Alumno
-		PO_View.checkElement(driver, "text", "Notas del usuario");
+		PO_View.checkElement(driver, "text", "Lista de usuarios");
 	}
 
-/*	//PRN. Loguearse con exito desde el ROl de Usuario, 99999990D, 123456
+	//PR08. Loguearse sin exito 
 	@Test
-	public void PR08() {
+	public void LoginIncorrecto() {
 		//Vamos al formulario de logueo.
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		//Rellenamos el formulario
-		PO_LoginView.fillForm(driver, "99999993D" , "123456" );
-		//COmprobamos que entramos en la pagina privada de Alumno
-		PO_View.checkElement(driver, "text", "Notas del usuario");
+		PO_LoginView.fillForm(driver, "maria@prueba.es" , "12345678" );
+		//COmprobamos el error de identificación
+		PO_RegisterView.checkKey(driver, "Error.login",
+				PO_Properties.getSPANISH() );
 	}
 
-	//PRN. Loguearse con exito desde el ROl de Usuario, 99999990D, 123456
+	//PR09. Loguearse con exito desde el ROl de Usuario, maria@prueba.es, 123456 y
+	//ver los usuarios registrados
 	@Test
-	public void PR09() {
+	public void ListarUsuarios() {
 		//Vamos al formulario de logueo.
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		//Rellenamos el formulario
-		PO_LoginView.fillForm(driver, "99999988F" , "123456" );
-		//COmprobamos que entramos en la pagina privada de Alumno
-		PO_View.checkElement(driver, "text", "Notas del usuario");
+		PO_LoginView.fillForm(driver, "maria@prueba.es" , "123456" );
+		//Comprobamos que entramos en la pagina privada de Alumno
+		PO_View.checkElement(driver, "text", "Lista de usuarios");
+		//Comprobamos que aparece el usuario con email jorge@prueba.es
+		PO_View.checkElement(driver, "text", "jorge@prueba.es");
 	}
 
-	//PRN. Loguearse con exito desde el ROl de Usuario, 99999990D, 123456
+	//PR10. Loguearse con exito desde el ROl de Usuario, maria@prueba.es, 123456 y
+	//buscar a usuarios 
 	@Test
-	public void PR010() {
+	public void BuscarUsuarios() {
 		//Vamos al formulario de logueo.
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		//Rellenamos el formulario
-		PO_LoginView.fillForm(driver, " 999999990A" , "123456" );
-		//COmprobamos que no entramos en la pagina privada de Alumno
-		PO_View.checkElement(driver, "text", "Identifícate");
+		PO_LoginView.fillForm(driver, "maria@prueba.es" , "123456" );
+		//Comprobamos que entramos en la pagina privada de Alumno
+		PO_View.checkElement(driver, "text", "Lista de usuarios");
+		//Buscamos la cadena "ma"
+		PO_SerachView.fillForm(driver, "ma");
+		//Comprobamos que nos aparecen dos usuarios maria@prueba.es y marta@prueba.es
+		PO_View.checkElement(driver, "text", "maria@prueba.es");
+		PO_View.checkElement(driver, "text", "marta@prueba.es");		
 	}
-
-	//PRN. Loguearse con exito desde el ROl de Usuario, 99999990D, 123456
-	@Test
-	public void PR011() {
-		//Vamos al formulario de logueo.
-		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-		//Rellenamos el formulario
-		PO_LoginView.fillForm(driver, " 99999990A" , "123456" );
-		//COmprobamos que entramos en la pagina privada de Alumno
-		PO_View.checkElement(driver, "text", "Notas del usuario");
-		//Vamos al formulario de logueo.
-		PO_HomeView.clickOption(driver, "logout", "class", "glyphicon glyphicon-log-out");
-		//COmprobamos que salimos
-		PO_View.checkElement(driver, "text", "Identifícate");
-	}
-	
+	/*
 	//PR12. Loguearse, comprobar que se visualizan 4 filas de notas y desconectarse usando el rol de estudiante.
 	@Test
 	public void PR12() {

@@ -203,7 +203,7 @@ public class NotaneitorTests {
 		PO_View.checkElement(driver, "text", "maria@prueba.es");
 		PO_View.checkElement(driver, "text", "marta@prueba.es");
 	}
-	
+
 	// Intentamos acceder a /user/list y rellenar el input para realizar la búsqueda y buscar
 	@Test
 	public void BusUsrInVal() {
@@ -212,7 +212,7 @@ public class NotaneitorTests {
 			PO_SerachView.fillForm(driver, "ma");
 		}catch (TimeoutException e) {}
 	}
-		
+
 
 	//PR12. Crear una publicación con datos válidos.
 	@Test
@@ -229,6 +229,22 @@ public class NotaneitorTests {
 		//Comprobamos que nos redirige a home
 		PO_View.checkElement(driver, "text", "Usuario autenticado como");
 	}
+
+	//PR13.  Acceso al listado de publicaciones desde un usuario en sesión.
+	@Test
+	public void LisPubVal() {
+		// Hacemos login con éxito
+		InVal();
+		//Accedemos a la viste de listar publicaciones
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'post/list')]");
+		elementos.get(0).click();
+		//Comprobamos que accedemos a la vista
+		PO_RegisterView.checkKey(driver, "post.list",PO_Properties.getSPANISH() );
+		//Comprobamos que muestra las publicaciones
+		PO_View.checkElement(driver, "text", "My first post");
+		PO_View.checkElement(driver, "text", "My second post");
+	}
+
 	/*
 	//PR13. Loguearse como estudiante y ver los detalles de la nota con Descripcion = Nota A2.
 	//P13. Ver la lista de Notas.

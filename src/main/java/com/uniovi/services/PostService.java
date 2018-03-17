@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.uniovi.entities.Post;
+import com.uniovi.entities.User;
 import com.uniovi.repositories.PostsRepository;
 
 @Service
@@ -23,6 +24,12 @@ public class PostService {
 	public List<Post> getPosts() {
 		List<Post> posts = new ArrayList<Post>();
 		postsRepository.findAll().forEach(posts::add);
+		return posts;
+	}
+
+	public List<Post> getPosts(User activeUser) {
+		List<Post> posts = new ArrayList<Post>();
+		postsRepository.findByUser(activeUser).forEach(posts::add);
 		return posts;
 	}
 	

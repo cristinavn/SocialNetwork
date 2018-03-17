@@ -1,10 +1,15 @@
 package com.uniovi.services;
 
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.uniovi.entities.Post;
 import com.uniovi.entities.User;
 
 @Service
@@ -27,41 +32,32 @@ public class InsertSampleDataService {
 		User user6 = new User("vicente@prueba.es", "Vicente Fernández");
 		user6.setPassword("123456");
 
-	/*	Set user1Marks = new HashSet<Mark>() {
+		Set user1Posts = new HashSet<Post>() {
 			{
-				add(new Mark("Nota A1", 10.0, user1));
-				add(new Mark("Nota A2", 9.0, user1));
-				add(new Mark("Nota A3", 7.0, user1));
-				add(new Mark("Nota A4", 6.5, user1));
+				Post p1 = new Post("Post 1", "My first post");
+				p1.setDate(LocalDate.of(2018, 2, 25));
+				add(p1);
+				add(new Post("Post 2", "My second post"));
 			}
 		};
-		user1.setFriends(user1Marks);
-		Set user2Marks = new HashSet<Mark>() {
+		user1.setPosts(user1Posts);
+		
+		Set user2Posts = new HashSet<Post>() {
 			{
-				add(new Mark("Nota B1", 5.0, user2));
-				add(new Mark("Nota B2", 4.3, user2));
-				add(new Mark("Nota B3", 8.0, user2));
-				add(new Mark("Nota B4", 3.5, user2));
+				add(new Post("Post 3", "My first post"));
+				add(new Post("Post 4", "My second post"));
 			}
 		};
-		user2.setFriends(user2Marks);
-		Set user3Marks = new HashSet<Mark>() {
+		user2.setPosts(user2Posts);
+		
+		Set user3Posts = new HashSet<Post>() {
 			{
-				;
-				add(new Mark("Nota C1", 5.5, user3));
-				add(new Mark("Nota C2", 6.6, user3));
-				add(new Mark("Nota C3", 7.0, user3));
+				add(new Post("Post 5", "My first post"));
+				add(new Post("Post 6", "My second post"));
 			}
 		};
-		user3.setFriends(user3Marks);
-		Set user4Marks = new HashSet<Mark>() {
-			{
-				add(new Mark("Nota D1", 10.0, user4));
-				add(new Mark("Nota D2", 8.0, user4));
-				add(new Mark("Nota D3", 9.0, user4));
-			}
-		};
-		user4.setFriends(user4Marks);*/
+		user3.setPosts(user3Posts);
+		
 		usersService.addUser(user1);
 		usersService.addUser(user2);
 		usersService.addUser(user3);

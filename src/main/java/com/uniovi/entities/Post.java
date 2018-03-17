@@ -68,9 +68,17 @@ public class Post {
 		return date;
 	}
 
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
+	
 	@Override
 	public String toString() {
 		return "Post [id=" + id + ", description=" + description + ", title=" + title + ", user=" + user + "]";
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
 	

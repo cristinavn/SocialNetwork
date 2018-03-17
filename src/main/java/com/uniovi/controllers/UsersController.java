@@ -122,12 +122,5 @@ public class UsersController {
 		model.addAttribute("usersList", usersService.getUsers());
 		return "home";
 	}
-	
-	@RequestMapping("/user/list/update")
-	public String updateList(Model model, Pageable pageable, Principal principal){
-		Page<User> users = usersService.getUsers(pageable);
-		model.addAttribute("usersList", users.getContent());
-		return "user/list :: tableUsers";
-	}
 
 }

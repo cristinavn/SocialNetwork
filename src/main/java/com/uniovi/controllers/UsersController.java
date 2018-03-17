@@ -1,7 +1,11 @@
 package com.uniovi.controllers;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,13 +20,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.uniovi.entities.User;
+import com.uniovi.services.RolesService;
 import com.uniovi.services.SecurityService;
 import com.uniovi.services.UsersService;
 import com.uniovi.validators.SignUpFormValidator;
 
 @Controller
+@SessionAttributes("admin")
 public class UsersController {
 
 	@Autowired
@@ -33,6 +40,9 @@ public class UsersController {
 
 	@Autowired
 	private SignUpFormValidator signUpFormValidator;
+
+	@Autowired
+	private RolesService rolesService;
 
 	@RequestMapping("/user/list")
 	public String getList(Model model, Pageable pageable, Principal principal, 
@@ -100,6 +110,7 @@ public class UsersController {
 		if (result.hasErrors()) {
 			return "signup";
 		}
+		user.setRole(rolesService.getRoles()[0]);
 		usersService.addUser(user);
 		securityService.autoLogin(user.getEmail(), user.getPasswordConfirm());
 		return "redirect:home";
@@ -114,8 +125,25 @@ public class UsersController {
 		return "login";
 	}
 
+	@RequestMapping(value="/admin/login")
+	public String login(HttpServletRequest request){
+		HttpSession session = request.getSession(true);
+		if (session.getAttribute("admin") == null) {
+			session.setAttribute("admin", true);
+		}
+		return "/admin/login";
+	}
+
+	@RequestMapping(value="/admin/edit")
+	public String login(){
+		return "/admin/edit";
+	}
+
 	@RequestMapping(value = { "/home" }, method = RequestMethod.GET)
-	public String home(Model model) {
+	public String home(Model model,HttpServletRequest request) {
+		if (request.getSession().getAttribute("admin") != null && (boolean) request.getSession().getAttribute("admin")) {
+			return "redirect:/admin/edit";
+		}
 		//Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		//String email = auth.getName();
 		//User activeUser = usersService.getUserByEmail(email);

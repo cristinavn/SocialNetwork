@@ -10,24 +10,12 @@
 			<img src="/img/student-48.png" alt="logo" />
 		</div>
 		<div class="collapse navbar-collapse" id="myNavbar">
-			<ul class="nav navbar-nav">
+			<ul class="nav navbar-nav" sec:authorize="isAuthenticated()">
 				<li><a href="/">Home</a></li>
-				<li id="marks-menu" class="dropdown"><a class="dropdown-toggle"
-					data-toggle="dropdown" href="#" th:text="#{marks.management}"> Gesti√≥n de notas <span
-						class="caret"></span>
-				</a>
-					<ul class="dropdown-menu">
-						<li><a href="/mark/add" th:text="#{mark.add}">Agregar Nota</a></li>
-						<li><a href="/mark/list" th:text="#{mark.list}">Ver Notas</a></li>
-					</ul></li>
-				<li id="users-menu" class="dropdown"><a class="dropdown-toggle"
-					data-toggle="dropdown" href="#" th:text="#{users.management}"> Gesti√≥n de Usuarios <span
-						class="caret"></span>
-				</a>
-					<ul class="dropdown-menu">
-						<li><a href="/user/add" th:text="#{user.add}">Agregar usuario</a></li>
-						<li><a href="/user/list" th:text="#{user.list}">Ver Usuarios</a></li>
-					</ul></li>
+				<li><a href="/user/list" th:text="#{user.list}">Ver
+						Usuarios</a></li>
+				<li><a href="/post/add" th:text="#{post.add}">Nueva publicaciÛn</a></li>
+				<li><a href="/post/list" th:text="#{post.list}">Mis publicaciones</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a id="btnLanguage" href="
@@ -40,19 +28,25 @@
 						<li><a id="btnEnglish" value="EN"> <img
 								th:src="@{/img/if_uk_flag.png}"
 								style="border: 0; float: left; margin-right: 15px" /> <span
-								th:text="#{language.en}">Ingl√©s</span>
+								th:text="#{language.en}">InglÈs</span>
 						</a></li>
 						<li><a id="btnSpanish" value="ES"> <img
 								th:src="@{/img/if_spain_flag.png}"
 								style="border: 0; float: left; margin-right: 15px" /> <span
-								th:text="#{language.es}">Espa√±ol</span>
+								th:text="#{language.es}">EspaÒol</span>
 						</a></li>
 					</ul></li>
-				<li><a href="/signup" th:text="#{signup.message}"> <span
+				<li sec:authorize="!isAuthenticated()"><a href="/signup"
+					th:text="#{signup.message}"> <span
 						class="glyphicon glyphicon-user"></span> Registrate
 				</a></li>
-				<li><a href="/login" th:text="#{login.message}"> <span
-						class="glyphicon glyphicon-log-in"></span> Identif√≠cate
+				<li sec:authorize="!isAuthenticated()"><a href="/login"
+					th:text="#{login.message}"> <span
+						class="glyphicon glyphicon-log-in"></span> IdentifÌcate
+				</a></li>
+				<li sec:authorize="isAuthenticated()"><a href="/logout"
+					th:text="#{logout.message}"> <span
+						class="glyphicon glyphicon-log-out"></span> Desconectar
 				</a></li>
 			</ul>
 		</div>

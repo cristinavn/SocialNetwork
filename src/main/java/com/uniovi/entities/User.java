@@ -1,4 +1,5 @@
 package com.uniovi.entities;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -27,6 +28,12 @@ public class User {
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private Set<Post> posts;
+	
+	@OneToMany(mappedBy ="recibida" , cascade =  CascadeType.ALL)
+	private Set<Peticion> peticionesRecibidas = new HashSet<>();
+	
+	@OneToMany(mappedBy ="enviada" , cascade =  CascadeType.ALL)
+	private Set<Peticion> peticionesEnviadas = new HashSet<>();
 
 	public User(String email, String name) {
 		super();
@@ -95,5 +102,12 @@ public class User {
 	public Set<Post> getPosts() {
 		return this.posts;
 	}
+	
+	public Set<Peticion> getRecibidas(){
+		return peticionesRecibidas;
+	}
 
+	public Set<Peticion> getEnviadas(){
+		return peticionesEnviadas;
+	}
 }

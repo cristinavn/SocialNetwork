@@ -19,7 +19,7 @@ public class PostController {
 	@RequestMapping(value="/post/add")
 	public String getPost(Model model){
 		model.addAttribute("usersList", postService.getPosts());
-		return "mark/add";
+		return "post/add";
 	}
 	
 	@RequestMapping(value="/post/add", method=RequestMethod.POST )

@@ -1,9 +1,15 @@
 package com.uniovi.entities;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
+
+
 @Entity
 public class User {
 	@Id
@@ -19,8 +25,8 @@ public class User {
 
 	private String role;
 	
-	//@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	//private Set<User> friends;
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private Set<Post> posts;
 
 	public User(String email, String name) {
 		super();

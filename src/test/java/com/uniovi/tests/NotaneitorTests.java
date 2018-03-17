@@ -17,6 +17,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.uniovi.tests.pageobjects.PO_HomeView;
 import com.uniovi.tests.pageobjects.PO_LoginView;
+import com.uniovi.tests.pageobjects.PO_PostView;
 import com.uniovi.tests.pageobjects.PO_Properties;
 import com.uniovi.tests.pageobjects.PO_RegisterView;
 import com.uniovi.tests.pageobjects.PO_SerachView;
@@ -179,7 +180,7 @@ public class NotaneitorTests {
 	public void LisUsrInVal() {
 		//Esperamos a aparezca la opción de listar usuarios: //a[contains(@href, 'user/list')] pero no debe aparecer
 		try{
-			List<WebElement> elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'user/list')]");
+			PO_View.checkElement(driver, "free", "//a[contains(@href, 'user/list')]");
 		}catch (TimeoutException e) {}
 	}
 
@@ -207,27 +208,28 @@ public class NotaneitorTests {
 	@Test
 	public void BusUsrInVal() {
 		try {
-			List<WebElement> elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'user/list')]");
+			PO_View.checkElement(driver, "free", "//a[contains(@href, 'user/list')]");
 			PO_SerachView.fillForm(driver, "ma");
 		}catch (TimeoutException e) {}
 	}
-	/*
-	//PR12. Loguearse, comprobar que se visualizan 4 filas de notas y desconectarse usando el rol de estudiante.
-	@Test
-	public void PR12() {
-		//Vamos al formulario de logueo.
-		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-		//Rellenamos el formulario
-		PO_LoginView.fillForm(driver, "99999990A" , "123456" );
-		//COmprobamos que entramos en la pagina privada de Alumno
-		PO_View.checkElement(driver, "text", "Notas del usuario");
-		//Contamos el número de filas de notas
-		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "free","//tbody/tr", PO_View.getTimeout());
-		assertTrue(elementos.size() == 4);
-		//Ahora nos desconectamos
-		PO_PrivateView.clickOption(driver, "logout", "text", "Identifícate");
-	}
+		
 
+	//PR12. Crear una publicación con datos válidos.
+	@Test
+	public void PubVal() {
+		// Hacemos login con éxito
+		InVal();
+		//Accedemos a la viste de nueva publicación
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'post/add')]");
+		elementos.get(0).click();
+		//Comprobamos que accedemos a la vista
+		PO_RegisterView.checkKey(driver, "post.add",PO_Properties.getSPANISH() );
+		//Rellenamos el formulario con datos válidos
+		PO_PostView.fillForm(driver, "Nueva publicación 1", "Esta es mi primera publicación");
+		//Comprobamos que nos redirige a home
+		PO_View.checkElement(driver, "text", "Usuario autenticado como");
+	}
+	/*
 	//PR13. Loguearse como estudiante y ver los detalles de la nota con Descripcion = Nota A2.
 	//P13. Ver la lista de Notas.
 	@Test

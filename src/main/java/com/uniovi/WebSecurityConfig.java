@@ -29,7 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 		.csrf().disable()
 		.authorizeRequests()
-			.antMatchers("/css/**", "/img/**", "/script/**", "/", "/signup","/login/**").permitAll()
+			.antMatchers("/css/**", "/img/**", "/script/**", "/", "/signup","/admin/login","/login").permitAll()
 			.antMatchers("/user/gestion/*").hasAnyAuthority("ROLE_ADMIN")
 			.antMatchers("/user/list").authenticated()
 			.antMatchers("/post/add").authenticated()

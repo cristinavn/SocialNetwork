@@ -3,10 +3,15 @@ package com.uniovi.controllers;
 import java.security.Principal;
 import java.util.LinkedList;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,13 +21,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.uniovi.entities.User;
+import com.uniovi.services.RolesService;
 import com.uniovi.services.SecurityService;
 import com.uniovi.services.UsersService;
 import com.uniovi.validators.SignUpFormValidator;
 
 @Controller
+@SessionAttributes("admin")
 public class UsersController {
 
 	@Autowired
@@ -34,9 +42,21 @@ public class UsersController {
 	@Autowired
 	private SignUpFormValidator signUpFormValidator;
 
+	@Autowired
+	private RolesService rolesService;
+
 	@RequestMapping("/user/list")
 	public String getList(Model model, Pageable pageable, Principal principal, 
-			@RequestParam(value = "", required=false) String searchText){
+			@RequestParam(value = "", required=false) String searchText,HttpServletRequest request){
+		if (getActiveUserRole().equals("ROLE_ADMIN") && request.getSession().getAttribute("admin") != null 
+				&& (boolean) request.getSession().getAttribute("admin")) {
+			return "redirect:/admin/edit";
+		}
+		if(request.getSession().getAttribute("admin") != null 
+				&& (boolean) request.getSession().getAttribute("admin")) {
+			SecurityContextHolder.clearContext();
+			return "redirect:/admin/login?error";
+		}
 		Page<User> users = new PageImpl<User>(new LinkedList<User>());
 		if (searchText != null && !searchText.isEmpty()) {
 			users = usersService.searchUsersByNameAndEmail(pageable, searchText);
@@ -100,27 +120,52 @@ public class UsersController {
 		if (result.hasErrors()) {
 			return "signup";
 		}
+		user.setRole(rolesService.getRoles()[0]);
 		usersService.addUser(user);
 		securityService.autoLogin(user.getEmail(), user.getPasswordConfirm());
 		return "redirect:home";
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login(Model model, @RequestParam(value = "error", required = false) String error) {
+	public String login(Model model, @RequestParam(value = "error", required = false) String error,
+			HttpServletRequest request) {
 		if (error != null)
 			model.addAttribute("loginError", true);
-		else
+		else	
 			model.addAttribute("loginError", false);
+		
 		return "login";
+	}
+
+	@RequestMapping(value="/admin/login")
+	public String login(HttpServletRequest request,Model model, 
+			@RequestParam(value = "error", required = false) String error){
+		HttpSession session = request.getSession(true);
+		if (session.getAttribute("admin") == null) {
+			session.setAttribute("admin", true);
+		}
+		if (error != null)
+			model.addAttribute("adminLoginError", true);
+		else	
+			model.addAttribute("adminLoginError", false);
+		return "/admin/login";
+	}
+
+	@RequestMapping(value="/admin/edit")
+	public String login(){
+		return "/admin/edit";
 	}
 
 	@RequestMapping(value = { "/home" }, method = RequestMethod.GET)
 	public String home(Model model) {
-		//Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		//String email = auth.getName();
-		//User activeUser = usersService.getUserByEmail(email);
 		model.addAttribute("usersList", usersService.getUsers());
 		return "home";
 	}
 
+	private String getActiveUserRole() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = auth.getName();
+		User activeUser = usersService.getUserByEmail(email);
+		return activeUser.getRole();
+	}
 }

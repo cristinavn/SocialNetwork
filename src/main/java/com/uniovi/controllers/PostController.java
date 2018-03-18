@@ -31,8 +31,12 @@ public class PostController {
 
 	@RequestMapping(value="/post/add", method=RequestMethod.POST )
 	public String setPost(@ModelAttribute Post post){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = auth.getName();
+		User activeUser = usersService.getUserByEmail(email);
+		post.setUser(activeUser);
 		postService.addPost(post);
-		return "redirect:/home";
+		return "redirect:/post/list";
 	}
 
 	@RequestMapping(value="/post/list") 

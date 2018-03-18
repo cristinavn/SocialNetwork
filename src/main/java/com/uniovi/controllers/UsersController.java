@@ -54,6 +54,7 @@ public class UsersController {
 		}
 		if(request.getSession().getAttribute("admin") != null 
 				&& (boolean) request.getSession().getAttribute("admin")) {
+			SecurityContextHolder.clearContext();
 			return "redirect:/admin/login?error";
 		}
 		Page<User> users = new PageImpl<User>(new LinkedList<User>());

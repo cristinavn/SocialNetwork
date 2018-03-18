@@ -267,6 +267,8 @@ public class NotaneitorTests {
 		//COmprobamos el error de identificación
 		PO_RegisterView.checkKey(driver, "Error.admin.login",
 				PO_Properties.getSPANISH() );
+		//Comprobamos que no tenemos acceso a /user/list
+		LisUsrInVal();
 	}
 	/*
 	//PR13. Loguearse como estudiante y ver los detalles de la nota con Descripcion = Nota A2.

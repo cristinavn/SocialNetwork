@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.uniovi.entities.Invitation;
+import com.uniovi.entities.Mark;
 import com.uniovi.entities.User;
 import com.uniovi.services.InvitationService;
 import com.uniovi.services.SecurityService;
@@ -140,9 +141,15 @@ public class UsersController {
 		invitationService.addPeticion(peticion);
 		activeUser.getEnviadas().add(peticion);
 		enviar.getRecibidas().add(peticion);
-		usersService.addUser(activeUser);
-		usersService.addUser(enviar);
 		return "redirect:/user/list";
+	}
+	
+	@RequestMapping("/user/list/update")
+	public String updateList(Model model, Pageable pageable, Principal principal){
+		Page<User> users = usersService.getUsers(pageable);
+		model.addAttribute("usersList", users.getContent() );
+		model.addAttribute("page", users);
+		return "user/list :: tableUsers";
 	}
 
 }

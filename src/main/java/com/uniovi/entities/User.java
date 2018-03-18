@@ -10,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 
 @Entity
 public class User {
@@ -110,7 +113,12 @@ public class User {
 	public Set<Invitation> getEnviadas(){
 		return peticionesEnviadas;
 	}
-	public boolean isRecibida(String text) {
+	public boolean isRecibida() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = auth.getName();
+		for(Invitation i: peticionesRecibidas) {
+			if(i.getEnviada().email.equals(email)) return true;
+		}
 		return false;
 	}
 }

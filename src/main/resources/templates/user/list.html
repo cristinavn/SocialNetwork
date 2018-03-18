@@ -26,9 +26,9 @@
 					<tr th:each="user : ${usersList}">
 						<td  class="text-left" th:text="${user.name}">Cris</td>
 						<td  class="text-left" th:text="${user.email}">cris@x.es</td>
-						<td> <div th:unless="${user.isRecibida('hola')}"> <p th:text="#{user.invitation.sended}">Invitacion de amistad enviada</p> 
+						<td> <div th:if="${user.isRecibida()}"> <p th:text="#{user.invitation.sended}">Invitacion de amistad enviada</p> 
 		   		</div>
-						 <div th:if="${user.isRecibida('hola')}"> 
+						 <div th:unless="${user.isRecibida()}"> 
 		   			
 		   			<button type="button" th:id="${'sendButton' + user.id}" 
 		   					class="btn btn-info" th:text="#{user.invitation.send}">Agregar Amigo</button>

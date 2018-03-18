@@ -68,19 +68,19 @@ public class NotaneitorTests {
 
 
 
-	//PR05. Prueba del formulario de registro. Registro con datos correctos
+	//PR01.1. Prueba del formulario de registro. Registro con datos correctos
 	@Test
 	public void RegVal() {
 		//Vamos al formulario de registro
 		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
 		//Rellenamos el formulario.
-		PO_RegisterView.fillForm(driver, "chema@prueba.es", "Chema", "77777",
+		PO_RegisterView.fillForm(driver, "Juanjo@prueba.es", "Juanjo", "77777",
 				"77777");
 		//Comprobamos que entramos en la sección privada
 		PO_View.checkElement(driver, "text", "Usuario autenticado como");
 	}
 
-	//PR06. Prueba del formulario de registro. DNI repetido en la BD, Nombre corto, .... pagination
+	//PR01.2. Prueba del formulario de registro. DNI repetido en la BD, Nombre corto, .... pagination
 	//pagination-centered, Error.signup.email.length
 	@Test
 	public void RegInVal() {
@@ -136,7 +136,7 @@ public class NotaneitorTests {
 				PO_Properties.getSPANISH() );
 	}
 
-	//PR07. Loguearse con exito desde el ROl de Usuario, maria@prueba.es, 123456
+	//PR02.1. Loguearse con exito desde el ROl de Usuario, maria@prueba.es, 123456
 	@Test
 	public void InVal() {
 		//Vamos al formulario de logueo.
@@ -147,7 +147,7 @@ public class NotaneitorTests {
 		PO_View.checkElement(driver, "text", "Lista de usuarios");
 	}
 
-	//PR08. Loguearse sin exito 
+	//PR02.2. Loguearse sin exito 
 	@Test
 	public void InInVal() {
 		//Vamos al formulario de logueo.
@@ -159,7 +159,7 @@ public class NotaneitorTests {
 				PO_Properties.getSPANISH() );
 	}
 
-	//PR09. Loguearse con exito desde el ROl de Usuario, maria@prueba.es, 123456 y
+	//PR03.1. Loguearse con exito desde el ROl de Usuario, maria@prueba.es, 123456 y
 	//ver los usuarios registrados
 	@Test
 	public void LisUsrVal() {
@@ -174,7 +174,7 @@ public class NotaneitorTests {
 		assertTrue(elementos.size() == 5);	
 	}
 
-	//PR09. Loguearse con exito desde el ROl de Usuario, maria@prueba.es, 123456 y
+	//PR03.2. Loguearse con exito desde el ROl de Usuario, maria@prueba.es, 123456 y
 	//ver los usuarios registrados
 	@Test
 	public void LisUsrInVal() {
@@ -184,7 +184,7 @@ public class NotaneitorTests {
 		}catch (TimeoutException e) {}
 	}
 
-	//PR10. Loguearse con exito desde el ROl de Usuario, maria@prueba.es, 123456 y
+	//PR04.1. Loguearse con exito desde el ROl de Usuario, maria@prueba.es, 123456 y
 	//buscar a usuarios 
 	@Test
 	public void BusUsrVal() {
@@ -204,7 +204,7 @@ public class NotaneitorTests {
 		PO_View.checkElement(driver, "text", "marta@prueba.es");
 	}
 
-	// Intentamos acceder a /user/list y rellenar el input para realizar la búsqueda y buscar
+	//PR04.2. Intentamos acceder a /user/list y rellenar el input para realizar la búsqueda y buscar
 	@Test
 	public void BusUsrInVal() {
 		try {
@@ -214,7 +214,7 @@ public class NotaneitorTests {
 	}
 
 
-	//PR12. Crear una publicación con datos válidos.
+	//PR9.1. Crear una publicación con datos válidos.
 	@Test
 	public void PubVal() {
 		// Hacemos login con éxito
@@ -227,10 +227,10 @@ public class NotaneitorTests {
 		//Rellenamos el formulario con datos válidos
 		PO_PostView.fillForm(driver, "Nueva publicación 1", "Esta es mi primera publicación");
 		//Comprobamos que nos redirige a home
-		PO_View.checkElement(driver, "text", "Usuario autenticado como");
+		PO_View.checkElement(driver, "text", "Esta es mi primera publicación");
 	}
 
-	//PR13.  Acceso al listado de publicaciones desde un usuario en sesión.
+	//PR10.1.  Acceso al listado de publicaciones desde un usuario en sesión.
 	@Test
 	public void LisPubVal() {
 		// Hacemos login con éxito
@@ -245,6 +245,31 @@ public class NotaneitorTests {
 		PO_View.checkElement(driver, "text", "My second post");
 	}
 
+	//PR13.2. Inicio de sesión como administrador con datos válidos.
+	@Test
+	public void AdInVal() {
+		//Vamos al formulario de logueo de administrador
+		driver.navigate().to("http://localhost:8090/admin/login");
+		//Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "admin@prueba.es" , "123456" );
+		//COmprobamos que entramos en la pagina privada de Alumno
+		PO_View.checkElement(driver, "text", "Administrador");
+	}
+
+	//PR13.2. Inicio de sesión como administrador con datos inválidos (usar los datos de un usuario
+	// que no tenga perfil administrador)
+	@Test
+	public void AdInInVal() {
+		//Vamos al formulario de logueo de administrador
+		driver.navigate().to("http://localhost:8090/admin/login");
+		//Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "maria@prueba.es" , "123456" );
+		//COmprobamos el error de identificación
+		PO_RegisterView.checkKey(driver, "Error.admin.login",
+				PO_Properties.getSPANISH() );
+		//Comprobamos que no tenemos acceso a /user/list
+		LisUsrInVal();
+	}
 	/*
 	//PR13. Loguearse como estudiante y ver los detalles de la nota con Descripcion = Nota A2.
 	//P13. Ver la lista de Notas.
@@ -331,31 +356,6 @@ public class NotaneitorTests {
 		//Ahora nos desconectamos
 		PO_PrivateView.clickOption(driver, "logout", "text", "Identifícate");
 	}
-
-	//PR01. Acceder a la página principal /
-		@Test
-		public void AccederPáginaPrincipal() {
-			PO_HomeView.checkWelcome(driver, PO_Properties.getSPANISH());
-		}
-
-		//PR02. Opción de navegación. Pinchar en el enlace Registro en la página home
-		@Test
-		public void AccederRegistro() {
-			PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
-		}
-
-		//PR03. OPción de navegación. Pinchar en el enlace Identifícate en la página home
-		@Test
-		public void AccederIdentificacion() {
-			PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-		}
-
-		//PR04. OPción de navegación. Cambio de idioma de Español a Inglés y vuelta a Español
-		@Test
-		public void CambiarIdioma() {
-			PO_HomeView.checkChangeIdiom(driver, "btnSpanish", "btnEnglish",
-					PO_Properties.getSPANISH(), PO_Properties.getENGLISH());
-		}
 	 */
 
 

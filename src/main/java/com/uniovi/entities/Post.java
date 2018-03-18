@@ -59,7 +59,11 @@ public class Post {
 	public User getUser() {
 		return user;
 	}
-
+	
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -77,9 +81,6 @@ public class Post {
 		return "Post [id=" + id + ", description=" + description + ", title=" + title + ", user=" + user + "]";
 	}
 
-	public void setUser(User user) {
-		this.user = user;
-	}
 	
 	
 }

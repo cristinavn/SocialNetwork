@@ -23,7 +23,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.uniovi.entities.Invitation;
 import com.uniovi.entities.User;
+import com.uniovi.services.InvitationService;
 import com.uniovi.services.RolesService;
 import com.uniovi.services.SecurityService;
 import com.uniovi.services.UsersService;
@@ -39,6 +41,9 @@ public class UsersController {
 	@Autowired
 	private SecurityService securityService;
 
+	@Autowired
+	private InvitationService invitationService;
+	
 	@Autowired
 	private SignUpFormValidator signUpFormValidator;
 
@@ -160,6 +165,27 @@ public class UsersController {
 	public String home(Model model) {
 		model.addAttribute("usersList", usersService.getUsers());
 		return "home";
+	}
+	
+	@RequestMapping(value="/user/{id}/send", method=RequestMethod.GET)
+	public String setResendTrue(Model model, @PathVariable Long id){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = auth.getName();
+		User activeUser = usersService.getUserByEmail(email);
+		User enviar = usersService.getUser(id);
+		Invitation peticion = new Invitation(activeUser,enviar);
+		invitationService.addPeticion(peticion);
+		activeUser.getEnviadas().add(peticion);
+		enviar.getRecibidas().add(peticion);
+		return "redirect:/user/list";
+	}
+	
+	@RequestMapping("/user/list/update")
+	public String updateList(Model model, Pageable pageable, Principal principal){
+		Page<User> users = usersService.getUsers(pageable);
+		model.addAttribute("usersList", users.getContent() );
+		model.addAttribute("page", users);
+		return "user/list :: tableUsers";
 	}
 
 	private String getActiveUserRole() {

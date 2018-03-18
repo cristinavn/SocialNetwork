@@ -14,7 +14,9 @@
 				<li><a href="/">Home</a></li>
 				<li><a href="/user/list" th:text="#{user.list}">Ver
 						Usuarios</a></li>
-				<li><a href="/post/add" th:text="#{post.add}">Nueva publicaciÛn</a></li>
+				<li> <a href = "/invitation/list" th:text = "#{invitation.list}"> Ver invitaciones</a> </li>
+				<li> <a href = "/friends" th:text = "#{friends}"> Amigos</a> </li>
+				<li><a href="/post/add" th:text="#{post.add}">Nueva publicaci√≥n</a></li>
 				<li><a href="/post/list" th:text="#{post.list}">Mis publicaciones</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
@@ -28,12 +30,12 @@
 						<li><a id="btnEnglish" value="EN"> <img
 								th:src="@{/img/if_uk_flag.png}"
 								style="border: 0; float: left; margin-right: 15px" /> <span
-								th:text="#{language.en}">InglÈs</span>
+								th:text="#{language.en}">Ingl√©s</span>
 						</a></li>
 						<li><a id="btnSpanish" value="ES"> <img
 								th:src="@{/img/if_spain_flag.png}"
 								style="border: 0; float: left; margin-right: 15px" /> <span
-								th:text="#{language.es}">EspaÒol</span>
+								th:text="#{language.es}">Espa√±ol</span>
 						</a></li>
 					</ul></li>
 				<li sec:authorize="!isAuthenticated()"><a href="/signup"
@@ -42,7 +44,7 @@
 				</a></li>
 				<li sec:authorize="!isAuthenticated()"><a href="/login"
 					th:text="#{login.message}"> <span
-						class="glyphicon glyphicon-log-in"></span> IdentifÌcate
+						class="glyphicon glyphicon-log-in"></span> Identif√≠cate
 				</a></li>
 				<li sec:authorize="isAuthenticated()"><a href="/logout"
 					th:text="#{logout.message}"> <span

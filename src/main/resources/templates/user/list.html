@@ -26,6 +26,29 @@
 					<tr th:each="user : ${usersList}">
 						<td  class="text-left" th:text="${user.name}">Cris</td>
 						<td  class="text-left" th:text="${user.email}">cris@x.es</td>
+						<td> <div th:if="${user.isRecibida()}">  
+		   		</div>
+						 <div th:unless="${user.isRecibida()}"> 
+		   			
+		   			<button type="button" th:id="${'sendButton' + user.id}" 
+		   					class="btn btn-info" th:text="#{user.invitation.send}">Agregar Amigo</button>
+					<script th:inline="javascript">
+					  /*<![CDATA[*/
+					  $( "#sendButton[[${user.id}]]" ).click(function() {
+						  $.get( "/user/[[${user.id}]]/send", function( data ) {
+							  var numberPage = [[${param.page}]];
+							  var urlUpdate = '/user/list/update';
+							  if ( numberPage != null ){
+								  urlUpdate += "?page="+numberPage[0];
+							  }
+							  $("#tableUsers").load(urlUpdate);
+						  });
+					  });
+					  /*]]>*/
+					</script>  
+		   		</div>
+		   		
+						 </td>
 					</tr>
 				</tbody>
 			</table>

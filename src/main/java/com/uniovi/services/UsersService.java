@@ -54,4 +54,18 @@ public class UsersService {
 		Page<User> marks = usersRepository.findAll(pageable);
 		return marks;
 	}
+
+	public Page<User> getInvitationsReceibed(String email, Pageable pageable) {
+		Page<User> invitations = usersRepository.getInvitationsReceibed(email,pageable);
+		return invitations;
+	}
+
+	public void save(User user) {
+		usersRepository.save(user);
+	}
+
+	public Page<User> getFriends(String email, Pageable pageable) {
+		Page<User> friends = usersRepository.getFriends(email,pageable);
+		return friends;
+	}
 }

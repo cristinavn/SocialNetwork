@@ -11,6 +11,10 @@ body {
   margin-bottom: 60px;
 }
 
+spam.error {
+	color: darkred;
+}
+
 footer {
   position: absolute;
   bottom: 0;

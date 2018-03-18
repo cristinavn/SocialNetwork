@@ -5,17 +5,10 @@
 	<!-- Barra de Navegación superior -->
 	<nav th:replace="fragments/nav" />
 	<div class="container">
-		<h2 th:text="#{user.list.header}"></h2>
-		<form class="navbar-form" action="/user/list">
-			<div class="form-group">
-				<input name="searchText" type="text" class="form-control" size="50"
-					placeholder="Buscar por nombre o email del alumno">
-			</div>
-			<button type="submit" class="btn btn-default" th:text="#{search}">Buscar</button>
-		</form>
-		<p th:text="#{user.list}">Listado usuarios</p>
+		<h2 th:text="#{friends.header}"></h2>
+		<p th:text="#{friends.intro}">Listado de amigos</p>
 		<div class="table-responsive">
-			<table class="table table-hover" th:fragment="tableUsers" id="tableUsers">
+			<table class="table table-hover" th:fragment="tableInvitations" id="tableInvitations">
 				<thead>
 					<tr>
 						<th class="col-md-4" th:text="#{user.name}">Nombre</th>
@@ -23,7 +16,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="user : ${usersList}">
+					<tr th:each="user : ${friends}">
 						<td  class="text-left" th:text="${user.name}">Cris</td>
 						<td  class="text-left" th:text="${user.email}">cris@x.es</td>
 					</tr>

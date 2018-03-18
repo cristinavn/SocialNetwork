@@ -1,7 +1,6 @@
 package com.uniovi.controllers;
 
 import java.security.Principal;
-import java.time.LocalDateTime;
 import java.util.LinkedList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -46,7 +47,15 @@ public class UsersController {
 
 	@RequestMapping("/user/list")
 	public String getList(Model model, Pageable pageable, Principal principal, 
-			@RequestParam(value = "", required=false) String searchText){
+			@RequestParam(value = "", required=false) String searchText,HttpServletRequest request){
+		if (getActiveUserRole().equals("ROLE_ADMIN") && request.getSession().getAttribute("admin") != null 
+				&& (boolean) request.getSession().getAttribute("admin")) {
+			return "redirect:/admin/edit";
+		}
+		if(request.getSession().getAttribute("admin") != null 
+				&& (boolean) request.getSession().getAttribute("admin")) {
+			return "redirect:/admin/login?error";
+		}
 		Page<User> users = new PageImpl<User>(new LinkedList<User>());
 		if (searchText != null && !searchText.isEmpty()) {
 			users = usersService.searchUsersByNameAndEmail(pageable, searchText);
@@ -117,20 +126,27 @@ public class UsersController {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login(Model model, @RequestParam(value = "error", required = false) String error) {
+	public String login(Model model, @RequestParam(value = "error", required = false) String error,
+			HttpServletRequest request) {
 		if (error != null)
 			model.addAttribute("loginError", true);
-		else
+		else	
 			model.addAttribute("loginError", false);
+		
 		return "login";
 	}
 
 	@RequestMapping(value="/admin/login")
-	public String login(HttpServletRequest request){
+	public String login(HttpServletRequest request,Model model, 
+			@RequestParam(value = "error", required = false) String error){
 		HttpSession session = request.getSession(true);
 		if (session.getAttribute("admin") == null) {
 			session.setAttribute("admin", true);
 		}
+		if (error != null)
+			model.addAttribute("adminLoginError", true);
+		else	
+			model.addAttribute("adminLoginError", false);
 		return "/admin/login";
 	}
 
@@ -140,15 +156,15 @@ public class UsersController {
 	}
 
 	@RequestMapping(value = { "/home" }, method = RequestMethod.GET)
-	public String home(Model model,HttpServletRequest request) {
-		if (request.getSession().getAttribute("admin") != null && (boolean) request.getSession().getAttribute("admin")) {
-			return "redirect:/admin/edit";
-		}
-		//Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		//String email = auth.getName();
-		//User activeUser = usersService.getUserByEmail(email);
+	public String home(Model model) {
 		model.addAttribute("usersList", usersService.getUsers());
 		return "home";
 	}
 
+	private String getActiveUserRole() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = auth.getName();
+		User activeUser = usersService.getUserByEmail(email);
+		return activeUser.getRole();
+	}
 }

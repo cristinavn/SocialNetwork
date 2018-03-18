@@ -46,26 +46,26 @@ public class InsertSampleDataService {
 		
 		Set user1Posts = new HashSet<Post>() {
 			{
-				Post p1 = new Post("Post 1", "My first post");
+				Post p1 = new Post("Post 1", "My first post", user1);
 				p1.setDate(LocalDate.of(2018, 2, 25));
 				add(p1);
-				add(new Post("Post 2", "My second post"));
+				add(new Post("Post 2", "My second post", user1));
 			}
 		};
 		user1.setPosts(user1Posts);
 		
 		Set user2Posts = new HashSet<Post>() {
 			{
-				add(new Post("Post 3", "My first post"));
-				add(new Post("Post 4", "My second post"));
+				add(new Post("Post 3", "My first post", user2));
+				add(new Post("Post 4", "My second post", user2));
 			}
 		};
 		user2.setPosts(user2Posts);
 		
 		Set user3Posts = new HashSet<Post>() {
 			{
-				add(new Post("Post 5", "My first post"));
-				add(new Post("Post 6", "My second post"));
+				add(new Post("Post 5", "My first post", user3));
+				add(new Post("Post 6", "My second post", user3));
 			}
 		};
 		user3.setPosts(user3Posts);

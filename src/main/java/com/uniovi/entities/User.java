@@ -86,9 +86,6 @@ public class User {
 	}
 
 	public void setPosts(Set<Post> posts) {
-		for (Post p : posts) {
-			p.setUser(this);
-		}
 		this.posts = posts;
 	}
 	

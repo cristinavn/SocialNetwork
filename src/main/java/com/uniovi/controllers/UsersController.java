@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.uniovi.entities.Invitation;
-import com.uniovi.entities.Mark;
 import com.uniovi.entities.User;
 import com.uniovi.services.InvitationService;
 import com.uniovi.services.SecurityService;

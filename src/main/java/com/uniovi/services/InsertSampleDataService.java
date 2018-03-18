@@ -61,7 +61,6 @@ public class InsertSampleDataService {
 			}
 		};
 		user3.setPosts(user3Posts);
-		
 		usersService.addUser(user1);
 		usersService.addUser(user2);
 		usersService.addUser(user3);
@@ -73,6 +72,13 @@ public class InsertSampleDataService {
 		peticionService.addPeticion(peticion);
 		user1.getEnviadas().add(peticion);
 		user2.getRecibidas().add(peticion);
+		
+
+		user3.getFriends().add(user4);
+		user4.getFriends().add(user3);
+		usersService.save(user3);
+		usersService.save(user4);
+		
 	}
 
 }

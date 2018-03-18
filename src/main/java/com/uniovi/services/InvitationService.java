@@ -14,6 +14,14 @@ public class InvitationService {
 	public void addPeticion(Invitation peticion) {
 		invitationRepository.save(peticion);
 	}
+
+	public Invitation find(Long id) {
+		return invitationRepository.findOne(id);
+	}
+
+	public void delete(Invitation invitation) {
+		invitationRepository.delete(invitation);
+	}
 	
 
 }

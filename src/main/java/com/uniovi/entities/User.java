@@ -1,4 +1,5 @@
 package com.uniovi.entities;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -7,36 +8,42 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-
 @Entity
 public class User {
 	@Id
 	@GeneratedValue
 	private long id;
-	@Column(unique=true)
+	@Column(unique = true)
 	private String email;
 	private String name;
 
 	private String password;
-	@Transient //propiedad que no se almacena en la tabla.
+	@Transient // propiedad que no se almacena en la tabla.
 	private String passwordConfirm;
 
 	private String role;
-	
+
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private Set<Post> posts;
-	
-	@OneToMany(mappedBy ="recibida" , cascade =  CascadeType.ALL)
+
+	@OneToMany(mappedBy = "recibida", cascade = CascadeType.ALL)
 	private Set<Invitation> peticionesRecibidas = new HashSet<>();
-	
-	@OneToMany(mappedBy ="enviada" , cascade =  CascadeType.ALL)
+
+	@OneToMany(mappedBy = "enviada", cascade = CascadeType.ALL)
 	private Set<Invitation> peticionesEnviadas = new HashSet<>();
+
+	@ManyToMany
+	@JoinTable(name = "tbl_friends", joinColumns = @JoinColumn(name = "personId"), inverseJoinColumns = @JoinColumn(name = "friendId"))
+	private Set<User> friends = new HashSet<>();
 
 	public User(String email, String name) {
 		super();
@@ -70,19 +77,19 @@ public class User {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public String getPassword() {
 		return password;
 	}
-	
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 	public String getPasswordConfirm() {
 		return passwordConfirm;
 	}
-	
+
 	public void setPasswordConfirm(String passwordConfirm) {
 		this.passwordConfirm = passwordConfirm;
 	}
@@ -101,24 +108,31 @@ public class User {
 		}
 		this.posts = posts;
 	}
-	
+
 	public Set<Post> getPosts() {
 		return this.posts;
 	}
-	
-	public Set<Invitation> getRecibidas(){
+
+	public Set<Invitation> getRecibidas() {
 		return peticionesRecibidas;
 	}
 
-	public Set<Invitation> getEnviadas(){
+	public Set<Invitation> getEnviadas() {
 		return peticionesEnviadas;
 	}
+
 	public boolean isRecibida() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
-		for(Invitation i: peticionesRecibidas) {
-			if(i.getEnviada().email.equals(email)) return true;
+		if(this.email.equals(email)) return true;
+		for (Invitation i : peticionesRecibidas) {
+			if (i.getEnviada().email.equals(email))
+				return true;
 		}
 		return false;
+	}
+	
+	public Set<User> getFriends(){
+		return friends;
 	}
 }

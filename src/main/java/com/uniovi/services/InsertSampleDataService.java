@@ -9,7 +9,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.uniovi.entities.Peticion;
+import com.uniovi.entities.Invitation;
 import com.uniovi.entities.Post;
 import com.uniovi.entities.User;
 
@@ -19,7 +19,7 @@ public class InsertSampleDataService {
 	private UsersService usersService;
 	
 	@Autowired
-	private PeticionService peticionService;
+	private InvitationService peticionService;
 
 	@PostConstruct
 	public void init() {
@@ -69,7 +69,7 @@ public class InsertSampleDataService {
 		usersService.addUser(user5);
 		usersService.addUser(user6);
 		
-		Peticion peticion = new Peticion(user1, user2);
+		Invitation peticion = new Invitation(user1, user2);
 		peticionService.addPeticion(peticion);
 		user1.getEnviadas().add(peticion);
 		user2.getRecibidas().add(peticion);

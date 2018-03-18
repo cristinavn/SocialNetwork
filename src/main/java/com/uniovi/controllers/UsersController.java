@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.uniovi.entities.Peticion;
+import com.uniovi.entities.Invitation;
 import com.uniovi.entities.User;
-import com.uniovi.services.PeticionService;
+import com.uniovi.services.InvitationService;
 import com.uniovi.services.SecurityService;
 import com.uniovi.services.UsersService;
 import com.uniovi.validators.SignUpFormValidator;
@@ -36,7 +36,7 @@ public class UsersController {
 	private SecurityService securityService;
 
 	@Autowired
-	private PeticionService peticionService;
+	private InvitationService invitationService;
 	
 	@Autowired
 	private SignUpFormValidator signUpFormValidator;
@@ -136,8 +136,8 @@ public class UsersController {
 		String email = auth.getName();
 		User activeUser = usersService.getUserByEmail(email);
 		User enviar = usersService.getUser(id);
-		Peticion peticion = new Peticion(activeUser,enviar);
-		peticionService.addPeticion(peticion);
+		Invitation peticion = new Invitation(activeUser,enviar);
+		invitationService.addPeticion(peticion);
 		activeUser.getEnviadas().add(peticion);
 		enviar.getRecibidas().add(peticion);
 		usersService.addUser(activeUser);

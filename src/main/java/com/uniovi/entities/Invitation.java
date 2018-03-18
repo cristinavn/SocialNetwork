@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Peticion {
+public class Invitation {
 	@Id
 	@GeneratedValue
 	private long id;
@@ -16,9 +16,9 @@ public class Peticion {
 	@ManyToOne
 	private User recibida;
 	
-	public Peticion() {}
+	public Invitation() {}
 	
-	public Peticion (User enviada, User recibida) {
+	public Invitation (User enviada, User recibida) {
 		this.enviada=enviada;
 		this.recibida=recibida;
 	}

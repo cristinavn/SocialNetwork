@@ -30,10 +30,10 @@ public class User {
 	private Set<Post> posts;
 	
 	@OneToMany(mappedBy ="recibida" , cascade =  CascadeType.ALL)
-	private Set<Peticion> peticionesRecibidas = new HashSet<>();
+	private Set<Invitation> peticionesRecibidas = new HashSet<>();
 	
 	@OneToMany(mappedBy ="enviada" , cascade =  CascadeType.ALL)
-	private Set<Peticion> peticionesEnviadas = new HashSet<>();
+	private Set<Invitation> peticionesEnviadas = new HashSet<>();
 
 	public User(String email, String name) {
 		super();
@@ -103,11 +103,14 @@ public class User {
 		return this.posts;
 	}
 	
-	public Set<Peticion> getRecibidas(){
+	public Set<Invitation> getRecibidas(){
 		return peticionesRecibidas;
 	}
 
-	public Set<Peticion> getEnviadas(){
+	public Set<Invitation> getEnviadas(){
 		return peticionesEnviadas;
+	}
+	public boolean isRecibida(String text) {
+		return false;
 	}
 }

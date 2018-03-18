@@ -54,4 +54,9 @@ public class UsersService {
 		Page<User> marks = usersRepository.findAll(pageable);
 		return marks;
 	}
+
+	public Page<User> getInvitationsReceibed(String email, Pageable pageable) {
+		Page<User> invitations = usersRepository.getInvitationsReceibed(email,pageable);
+		return invitations;
+	}
 }

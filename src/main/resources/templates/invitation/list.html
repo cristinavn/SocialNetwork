@@ -25,7 +25,7 @@
 		   					class="btn btn-info" th:text="#{invitation.acept}">Aceptar invitacion</button>
 					<script th:inline="javascript">
 					  /*<![CDATA[*/
-					  $( "aceptButton[[${user.id}]]" ).click(function() {
+					  $( "#aceptButton[[${user.id}]]" ).click(function() {
 						  $.get( "/invitation/[[${user.id}]]/acept", function( data ) {
 							  var numberPage = [[${param.page}]];
 							  var urlUpdate = '/invitation/list/update';

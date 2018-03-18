@@ -125,8 +125,15 @@ public class User {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
 		if(this.email.equals(email)) return true;
+		for(User u: friends) {
+			if(u.getEmail().equals(email)) return true;
+		}
 		for (Invitation i : peticionesRecibidas) {
 			if (i.getEnviada().email.equals(email))
+				return true;
+		}
+		for (Invitation i : peticionesEnviadas) {
+			if (i.getRecibida().email.equals(email))
 				return true;
 		}
 		return false;

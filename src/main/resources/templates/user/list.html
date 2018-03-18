@@ -26,7 +26,7 @@
 					<tr th:each="user : ${usersList}">
 						<td  class="text-left" th:text="${user.name}">Cris</td>
 						<td  class="text-left" th:text="${user.email}">cris@x.es</td>
-						<td> <div th:if="${user.isRecibida()}"> <p th:text="#{user.invitation.sended}">Invitacion de amistad enviada</p> 
+						<td> <div th:if="${user.isRecibida()}">  
 		   		</div>
 						 <div th:unless="${user.isRecibida()}"> 
 		   			

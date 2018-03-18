@@ -63,4 +63,9 @@ public class UsersService {
 	public void save(User user) {
 		usersRepository.save(user);
 	}
+
+	public Page<User> getFriends(String email, Pageable pageable) {
+		Page<User> friends = usersRepository.getFriends(email,pageable);
+		return friends;
+	}
 }

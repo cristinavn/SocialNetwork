@@ -29,7 +29,7 @@ public class NotaneitorTests {
 
 
 	//En Windows (Debe ser la versión 46.0 y desactivar las actualizacioens automáticas)):
-	static String PathFirefox = "C:\\Users\\Toshiba\\Documents\\aSDI\\Firefox46.0.win\\Firefox46.win\\FirefoxPortable.exe";
+	static String PathFirefox = "C:\\Users\\UO251104\\Downloads\\Firefox46.0.win (1)\\Firefox46.win\\FirefoxPortable.exe";
 	//En MACOSX (Debe ser la versión 46.0 y desactivar las actualizaciones automáticas):
 	//static String PathFirefox = "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
 	//Común a Windows y a MACOSX

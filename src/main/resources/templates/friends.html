@@ -17,7 +17,7 @@
 				</thead>
 				<tbody>
 					<tr th:each="user : ${friends}">
-						<td  class="text-left" th:text="${user.name}">Cris</td>
+						<td  class="text-left" ><a th:text="${user.name}"  th:href="@{'/post/' + ${user.id} + '/list'}"></a></td>
 						<td  class="text-left" th:text="${user.email}">cris@x.es</td>
 					</tr>
 				</tbody>

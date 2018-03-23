@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 
 @Entity
 public class Post {
@@ -40,6 +41,11 @@ public class Post {
 		this.user = user;
 	}
 
+	@PrePersist
+	void onCreate() {
+		this.setDate(LocalDate.now());
+	}
+	
 	public String getDescription() {
 		return description;
 	}

@@ -1,7 +1,9 @@
 package com.uniovi.tests;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
+
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -17,6 +19,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.uniovi.tests.pageobjects.PO_HomeView;
 import com.uniovi.tests.pageobjects.PO_LoginView;
+import com.uniovi.tests.pageobjects.PO_NavView;
 import com.uniovi.tests.pageobjects.PO_PostView;
 import com.uniovi.tests.pageobjects.PO_Properties;
 import com.uniovi.tests.pageobjects.PO_RegisterView;
@@ -29,7 +32,9 @@ public class NotaneitorTests {
 
 
 	//En Windows (Debe ser la versión 46.0 y desactivar las actualizacioens automáticas)):
-	static String PathFirefox = "C:\\Users\\UO251104\\Downloads\\Firefox46.0.win (1)\\Firefox46.win\\FirefoxPortable.exe";
+	//static String PathFirefox = "C:\\Users\\Toshiba\\Documents\\aSDI\\Firefox46.0.win\\Firefox46.win\\FirefoxPortable.exe";
+	static String PathFirefox = "C:/Users/Iván/Documents/Ingenieria Uniovi/Tercero/SDI/Firefox46.win/FirefoxPortable.exe";
+	
 	//En MACOSX (Debe ser la versión 46.0 y desactivar las actualizaciones automáticas):
 	//static String PathFirefox = "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
 	//Común a Windows y a MACOSX
@@ -70,7 +75,7 @@ public class NotaneitorTests {
 
 	//PR01.1. Prueba del formulario de registro. Registro con datos correctos
 	@Test
-	public void RegVal() {
+	public void PR01_1RegVal() {
 		//Vamos al formulario de registro
 		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
 		//Rellenamos el formulario.
@@ -83,7 +88,7 @@ public class NotaneitorTests {
 	//PR01.2. Prueba del formulario de registro. DNI repetido en la BD, Nombre corto, .... pagination
 	//pagination-centered, Error.signup.email.length
 	@Test
-	public void RegInVal() {
+	public void PR01_2RegInVal() {
 		//Vamos al formulario de registro
 		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
 		//Rellenamos el formulario.
@@ -138,7 +143,7 @@ public class NotaneitorTests {
 
 	//PR02.1. Loguearse con exito desde el ROl de Usuario, maria@prueba.es, 123456
 	@Test
-	public void InVal() {
+	public void PR02_1InVal() {
 		//Vamos al formulario de logueo.
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		//Rellenamos el formulario
@@ -149,7 +154,7 @@ public class NotaneitorTests {
 
 	//PR02.2. Loguearse sin exito 
 	@Test
-	public void InInVal() {
+	public void PR02_2InInVal() {
 		//Vamos al formulario de logueo.
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		//Rellenamos el formulario
@@ -162,7 +167,7 @@ public class NotaneitorTests {
 	//PR03.1. Loguearse con exito desde el ROl de Usuario, maria@prueba.es, 123456 y
 	//ver los usuarios registrados
 	@Test
-	public void LisUsrVal() {
+	public void PR03_1LisUsrVal() {
 		//Vamos al formulario de logueo.
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		//Rellenamos el formulario
@@ -177,7 +182,7 @@ public class NotaneitorTests {
 	//PR03.2. Loguearse con exito desde el ROl de Usuario, maria@prueba.es, 123456 y
 	//ver los usuarios registrados
 	@Test
-	public void LisUsrInVal() {
+	public void PR03_2LisUsrInVal() {
 		//Esperamos a aparezca la opción de listar usuarios: //a[contains(@href, 'user/list')] pero no debe aparecer
 		try{
 			PO_View.checkElement(driver, "free", "//a[contains(@href, 'user/list')]");
@@ -187,7 +192,7 @@ public class NotaneitorTests {
 	//PR04.1. Loguearse con exito desde el ROl de Usuario, maria@prueba.es, 123456 y
 	//buscar a usuarios 
 	@Test
-	public void BusUsrVal() {
+	public void PR04_1BusUsrVal() {
 		//Vamos al formulario de logueo.
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		//Rellenamos el formulario
@@ -206,19 +211,96 @@ public class NotaneitorTests {
 
 	//PR04.2. Intentamos acceder a /user/list y rellenar el input para realizar la búsqueda y buscar
 	@Test
-	public void BusUsrInVal() {
+	public void PR04_2BusUsrInVal() {
 		try {
 			PO_View.checkElement(driver, "free", "//a[contains(@href, 'user/list')]");
 			PO_SerachView.fillForm(driver, "ma");
 		}catch (TimeoutException e) {}
 	}
 
-
+	//PR5.1. [InvVal] Enviar una invitación de amistad a un usuario de forma valida.
+	@Test
+	public void PR05_1InvVal() {
+		//Vamos al formulario de logueo.
+				PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+				//Rellenamos el formulario
+				PO_LoginView.fillForm(driver, "jorge@prueba.es" , "123456" );
+				//Comprobamos que entramos en la pagina privada de Alumno
+				PO_View.checkElement(driver, "text", "Lista de usuarios");
+				PO_NavView.clickOption(driver, "/user/list", "id", "sendButton4");
+				List<WebElement> elemntos = PO_View.checkElement(driver, "id", "sendButton4");
+				elemntos.get(0).click();
+				PO_View.checkElement(driver, "id", "pSended4");
+				
+	}
+	
+	//PR5.2. [InvVal] Enviar una invitación de amistad a un usuario al que ya le habíamos invitado la invitación
+	//previamente. No debería dejarnos enviar la invitación, se podría ocultar el botón de enviar invitación o
+	//notificar que ya había sido enviada previamente.
+		@Test
+		public void PR05_2InvInVal() {
+			//Vamos al formulario de logueo.
+					PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+					//Rellenamos el formulario
+					PO_LoginView.fillForm(driver, "jorge@prueba.es" , "123456" );
+					//Comprobamos que entramos en la pagina privada de Alumno
+					PO_View.checkElement(driver, "text", "Lista de usuarios");
+					PO_NavView.clickOption(driver, "/user/list", "id", "pSended4");
+					List<WebElement> elemntos = PO_View.checkElement(driver, "id", "pSended4");
+					assertTrue(elemntos.size()==1);
+		}
+		
+//		PR6.1 [LisInvVal] Listar las invitaciones recibidas por un usuario, realizar la comprobación con una lista
+//		que al menos tenga una invitación recibida.
+		@Test
+		public void PR06_1LisInvVal() {
+			//Vamos al formulario de logueo.
+					PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+					//Rellenamos el formulario
+					PO_LoginView.fillForm(driver, "lucas@prueba.es" , "123456" );
+					//Comprobamos que entramos en la pagina privada de Alumno
+					PO_HomeView.clickOption(driver, "/invitation/list", "id", "invitaciones");
+					List<WebElement> elemntos = PO_View.checkElement(driver, "class", "text-left");
+					assertEquals(2, elemntos.size());
+					
+		}
+		
+		//PR7.1 [AcepInvVal] Aceptar una invitación recibida
+		@Test
+		public void PR07_1AcepInvVal() {
+			//Vamos al formulario de logueo.
+					PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+					//Rellenamos el formulario
+					PO_LoginView.fillForm(driver, "lucas@prueba.es" , "123456" );
+					//Comprobamos que entramos en la pagina privada de Alumno
+					PO_NavView.clickOption(driver, "/invitation/list", "id", "invitaciones");
+					List<WebElement> elemntos = PO_View.checkElement(driver, "class", "text-left");
+					assertEquals(2, elemntos.size());
+					PO_NavView.clickOption(driver, "/invitation/list", "id", "aceptButton1");
+					elemntos= PO_View.checkElement(driver, "id", "aceptButton1");
+					elemntos.get(0).click();
+					
+		}
+		
+		//8.1 [ListAmiVal] Listar los amigos de un usuario, realizar la comprobación con una lista que al menos tenga un amigo
+		@Test
+		public void PR08_1ListAmiVal() {
+			//Vamos al formulario de logueo.
+					PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+					//Rellenamos el formulario
+					PO_LoginView.fillForm(driver, "marta@prueba.es" , "123456" );
+					//Comprobamos que entramos en la pagina privada de Alumno
+					PO_NavView.clickOption(driver, "/friends", "id", "amigos");
+					List<WebElement> elemntos = PO_View.checkElement(driver, "class", "text-left");
+					assertEquals(2, elemntos.size());
+					
+		}
+		
 	//PR9.1. Crear una publicación con datos válidos.
 	@Test
-	public void PubVal() {
+	public void PR09_1PubVal() {
 		// Hacemos login con éxito
-		InVal();
+		PR02_1InVal();
 		//Accedemos a la viste de nueva publicación
 		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'post/add')]");
 		elementos.get(0).click();
@@ -232,9 +314,9 @@ public class NotaneitorTests {
 
 	//PR10.1.  Acceso al listado de publicaciones desde un usuario en sesión.
 	@Test
-	public void LisPubVal() {
+	public void PR10_1LisPubVal() {
 		// Hacemos login con éxito
-		InVal();
+		PR02_1InVal();
 		//Accedemos a la viste de listar publicaciones
 		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'post/list')]");
 		elementos.get(0).click();
@@ -247,7 +329,7 @@ public class NotaneitorTests {
 
 	//PR13.2. Inicio de sesión como administrador con datos válidos.
 	@Test
-	public void AdInVal() {
+	public void PR13_2AdInVal() {
 		//Vamos al formulario de logueo de administrador
 		driver.navigate().to("http://localhost:8090/admin/login");
 		//Rellenamos el formulario
@@ -259,7 +341,7 @@ public class NotaneitorTests {
 	//PR13.2. Inicio de sesión como administrador con datos inválidos (usar los datos de un usuario
 	// que no tenga perfil administrador)
 	@Test
-	public void AdInInVal() {
+	public void PR13_2AdInInVal() {
 		//Vamos al formulario de logueo de administrador
 		driver.navigate().to("http://localhost:8090/admin/login");
 		//Rellenamos el formulario
@@ -268,7 +350,7 @@ public class NotaneitorTests {
 		PO_RegisterView.checkKey(driver, "Error.admin.login",
 				PO_Properties.getSPANISH() );
 		//Comprobamos que no tenemos acceso a /user/list
-		LisUsrInVal();
+		PR03_2LisUsrInVal();
 	}
 	/*
 	//PR13. Loguearse como estudiante y ver los detalles de la nota con Descripcion = Nota A2.

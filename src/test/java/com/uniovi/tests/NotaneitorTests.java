@@ -34,7 +34,7 @@ public class NotaneitorTests {
 	//En Windows (Debe ser la versión 46.0 y desactivar las actualizacioens automáticas)):
 	//static String PathFirefox = "C:\\Users\\Toshiba\\Documents\\aSDI\\Firefox46.0.win\\Firefox46.win\\FirefoxPortable.exe";
 	static String PathFirefox = "C:/Users/Iván/Documents/Ingenieria Uniovi/Tercero/SDI/Firefox46.win/FirefoxPortable.exe";
-	
+
 	//En MACOSX (Debe ser la versión 46.0 y desactivar las actualizaciones automáticas):
 	//static String PathFirefox = "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
 	//Común a Windows y a MACOSX
@@ -222,80 +222,80 @@ public class NotaneitorTests {
 	@Test
 	public void PR05_1InvVal() {
 		//Vamos al formulario de logueo.
-				PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-				//Rellenamos el formulario
-				PO_LoginView.fillForm(driver, "jorge@prueba.es" , "123456" );
-				//Comprobamos que entramos en la pagina privada de Alumno
-				PO_View.checkElement(driver, "text", "Lista de usuarios");
-				PO_NavView.clickOption(driver, "/user/list", "id", "sendButton4");
-				List<WebElement> elemntos = PO_View.checkElement(driver, "id", "sendButton4");
-				elemntos.get(0).click();
-				PO_View.checkElement(driver, "id", "pSended4");
-				
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		//Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "jorge@prueba.es" , "123456" );
+		//Comprobamos que entramos en la pagina privada de Alumno
+		PO_View.checkElement(driver, "text", "Lista de usuarios");
+		PO_NavView.clickOption(driver, "/user/list", "id", "sendButton4");
+		List<WebElement> elemntos = PO_View.checkElement(driver, "id", "sendButton4");
+		elemntos.get(0).click();
+		PO_View.checkElement(driver, "id", "pSended4");
+
 	}
-	
+
 	//PR5.2. [InvVal] Enviar una invitación de amistad a un usuario al que ya le habíamos invitado la invitación
 	//previamente. No debería dejarnos enviar la invitación, se podría ocultar el botón de enviar invitación o
 	//notificar que ya había sido enviada previamente.
-		@Test
-		public void PR05_2InvInVal() {
-			//Vamos al formulario de logueo.
-					PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-					//Rellenamos el formulario
-					PO_LoginView.fillForm(driver, "jorge@prueba.es" , "123456" );
-					//Comprobamos que entramos en la pagina privada de Alumno
-					PO_View.checkElement(driver, "text", "Lista de usuarios");
-					PO_NavView.clickOption(driver, "/user/list", "id", "pSended4");
-					List<WebElement> elemntos = PO_View.checkElement(driver, "id", "pSended4");
-					assertTrue(elemntos.size()==1);
-		}
-		
-//		PR6.1 [LisInvVal] Listar las invitaciones recibidas por un usuario, realizar la comprobación con una lista
-//		que al menos tenga una invitación recibida.
-		@Test
-		public void PR06_1LisInvVal() {
-			//Vamos al formulario de logueo.
-					PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-					//Rellenamos el formulario
-					PO_LoginView.fillForm(driver, "lucas@prueba.es" , "123456" );
-					//Comprobamos que entramos en la pagina privada de Alumno
-					PO_HomeView.clickOption(driver, "/invitation/list", "id", "invitaciones");
-					List<WebElement> elemntos = PO_View.checkElement(driver, "class", "text-left");
-					assertEquals(2, elemntos.size());
-					
-		}
-		
-		//PR7.1 [AcepInvVal] Aceptar una invitación recibida
-		@Test
-		public void PR07_1AcepInvVal() {
-			//Vamos al formulario de logueo.
-					PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-					//Rellenamos el formulario
-					PO_LoginView.fillForm(driver, "lucas@prueba.es" , "123456" );
-					//Comprobamos que entramos en la pagina privada de Alumno
-					PO_NavView.clickOption(driver, "/invitation/list", "id", "invitaciones");
-					List<WebElement> elemntos = PO_View.checkElement(driver, "class", "text-left");
-					assertEquals(2, elemntos.size());
-					PO_NavView.clickOption(driver, "/invitation/list", "id", "aceptButton1");
-					elemntos= PO_View.checkElement(driver, "id", "aceptButton1");
-					elemntos.get(0).click();
-					
-		}
-		
-		//8.1 [ListAmiVal] Listar los amigos de un usuario, realizar la comprobación con una lista que al menos tenga un amigo
-		@Test
-		public void PR08_1ListAmiVal() {
-			//Vamos al formulario de logueo.
-					PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-					//Rellenamos el formulario
-					PO_LoginView.fillForm(driver, "marta@prueba.es" , "123456" );
-					//Comprobamos que entramos en la pagina privada de Alumno
-					PO_NavView.clickOption(driver, "/friends", "id", "amigos");
-					List<WebElement> elemntos = PO_View.checkElement(driver, "class", "text-left");
-					assertEquals(2, elemntos.size());
-					
-		}
-		
+	@Test
+	public void PR05_2InvInVal() {
+		//Vamos al formulario de logueo.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		//Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "jorge@prueba.es" , "123456" );
+		//Comprobamos que entramos en la pagina privada de Alumno
+		PO_View.checkElement(driver, "text", "Lista de usuarios");
+		PO_NavView.clickOption(driver, "/user/list", "id", "pSended4");
+		List<WebElement> elemntos = PO_View.checkElement(driver, "id", "pSended4");
+		assertTrue(elemntos.size()==1);
+	}
+
+	//		PR6.1 [LisInvVal] Listar las invitaciones recibidas por un usuario, realizar la comprobación con una lista
+	//		que al menos tenga una invitación recibida.
+	@Test
+	public void PR06_1LisInvVal() {
+		//Vamos al formulario de logueo.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		//Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "lucas@prueba.es" , "123456" );
+		//Comprobamos que entramos en la pagina privada de Alumno
+		PO_HomeView.clickOption(driver, "/invitation/list", "id", "invitaciones");
+		List<WebElement> elemntos = PO_View.checkElement(driver, "class", "text-left");
+		assertEquals(2, elemntos.size());
+
+	}
+
+	//PR7.1 [AcepInvVal] Aceptar una invitación recibida
+	@Test
+	public void PR07_1AcepInvVal() {
+		//Vamos al formulario de logueo.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		//Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "lucas@prueba.es" , "123456" );
+		//Comprobamos que entramos en la pagina privada de Alumno
+		PO_NavView.clickOption(driver, "/invitation/list", "id", "invitaciones");
+		List<WebElement> elemntos = PO_View.checkElement(driver, "class", "text-left");
+		assertEquals(2, elemntos.size());
+		PO_NavView.clickOption(driver, "/invitation/list", "id", "aceptButton1");
+		elemntos= PO_View.checkElement(driver, "id", "aceptButton1");
+		elemntos.get(0).click();
+
+	}
+
+	//8.1 [ListAmiVal] Listar los amigos de un usuario, realizar la comprobación con una lista que al menos tenga un amigo
+	@Test
+	public void PR08_1ListAmiVal() {
+		//Vamos al formulario de logueo.
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		//Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "marta@prueba.es" , "123456" );
+		//Comprobamos que entramos en la pagina privada de Alumno
+		PO_NavView.clickOption(driver, "/friends", "id", "amigos");
+		List<WebElement> elemntos = PO_View.checkElement(driver, "class", "text-left");
+		assertEquals(2, elemntos.size());
+
+	}
+
 	//PR9.1. Crear una publicación con datos válidos.
 	@Test
 	public void PR09_1PubVal() {
@@ -352,94 +352,16 @@ public class NotaneitorTests {
 		//Comprobamos que no tenemos acceso a /user/list
 		PR03_2LisUsrInVal();
 	}
-	/*
-	//PR13. Loguearse como estudiante y ver los detalles de la nota con Descripcion = Nota A2.
-	//P13. Ver la lista de Notas.
+
+	//PR14.1 Desde un usuario identificado en sesión como administrador listar a todos los
+	// usuarios de la aplicación.
 	@Test
-	public void PR13() {
-		//Vamos al formulario de logueo.
-		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-		//Rellenamos el formulario
-		PO_LoginView.fillForm(driver, "99999990A" , "123456" );
-		//COmprobamos que entramos en la pagina privada de Alumno
-		PO_View.checkElement(driver, "text", "Notas del usuario");
-		SeleniumUtils.esperarSegundos(driver, 1);
-		//Contamos las notas
-		By enlace = By.xpath("//td[contains(text(), 'Nota A2')]/followingsibling::*[2]");
-		driver.findElement(enlace).click();
-		SeleniumUtils.esperarSegundos(driver, 1);
-		//Esperamos por la ventana de detalle
-		PO_View.checkElement(driver, "text", "Detalles de la nota");
-		SeleniumUtils.esperarSegundos(driver, 1);
-		//Ahora nos desconectamos
-		PO_PrivateView.clickOption(driver, "logout", "text", "Identifícate");
+	public void PR14_1AdLisUsrVal() {
+		//Entrar como administrador
+		PR13_2AdInVal();
+		//Contamos el número de filas de usuarios 
+		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "free","//tbody/tr", PO_View.getTimeout());
+		assertTrue(elementos.size() == 8);
 	}
-
-	//P14. Loguearse como profesor y Agregar Nota A2.
-	//P14. Esta prueba podría encapsularse mejor ...
-	@Test
-	public void PR14() {
-		//Vamos al formulario de logueo.
-		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-		//Rellenamos el formulario
-		PO_LoginView.fillForm(driver, "99999993D" , "123456" );
-		//COmprobamos que entramos en la pagina privada del Profesor
-		PO_View.checkElement(driver, "text", "99999993D");
-		//Pinchamos en la opción de menu de Notas: //li[contains(@id, 'marks-menu')]/a
-		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id,'marks-menu')]/a");
-		elementos.get(0).click();
-		//Esperamos a aparezca la opción de añadir nota: //a[contains(@href, 'mark/add')]
-		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'mark/add')]");
-		//Pinchamos en agregar Nota.
-		elementos.get(0).click();
-		//Ahora vamos a rellenar la nota. //option[contains(@value, '4')]
-		PO_PrivateView.fillFormAddMark(driver, 3, "Nota Nueva 1", "8");
-		//Esperamos a que se muestren los enlaces de paginación la lista de notas
-		elementos = PO_View.checkElement(driver, "free", "//a[contains(@class, 'page-link')]");
-		//Nos vamos a la última página
-		elementos.get(3).click();
-		//Comprobamos que aparece la nota en la pagina
-		elementos = PO_View.checkElement(driver, "text", "Nota Nueva 1");
-		//Ahora nos desconectamos
-		PO_PrivateView.clickOption(driver, "logout", "text", "Identifícate");
-	}
-
-	//PRN. Loguearse como profesor, vamos a la ultima página y Eliminamos la Nota Nueva 1.
-	//PRN. Ver la lista de Notas.
-	@Test
-	public void PR15() {
-		//Vamos al formulario de logueo.
-		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-		//Rellenamos el formulario
-		PO_LoginView.fillForm(driver, "99999993D" , "123456" );
-		//COmprobamos que entramos en la pagina privada del Profesor
-		PO_View.checkElement(driver, "text", "99999993D");
-		//Pinchamos en la opción de menu de Notas: //li[contains(@id, 'marks-menu')]/a
-		List<WebElement> elementos = PO_View.checkElement(driver, "free",
-				"//li[contains(@id, 'marks-menu')]/a");
-		elementos.get(0).click();
-		//Pinchamos en la opción de lista de notas.
-		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href,'mark/list')]");
-		elementos.get(0).click();
-		//Esperamos a que se muestren los enlaces de paginacion la lista de notas
-		elementos = PO_View.checkElement(driver, "free", "//a[contains(@class, 'pagelink')]");
-		//Nos vamos a la última página
-		elementos.get(3).click();
-		//Esperamos a que aparezca la Nueva nota en la ultima pagina
-		//Y Pinchamos en el enlace de borrado de la Nota "Nota Nueva 1"
-		//td[contains(text(), 'Nota Nueva 1')]/following-sibling::a[contains(text(),'mark/delete')]"
-		elementos = PO_View.checkElement(driver, "free", "//td[contains(text(), 'Nota Nueva 1')]/following-sibling::a[contains(@href, 'mark/delete')]");
-		elementos.get(0).click();
-		//Volvemos a la última pagina
-		elementos = PO_View.checkElement(driver, "free", "//a[contains(@class, 'pagelink')]");
-		elementos.get(3).click();
-		//Y esperamos a que NO aparezca la ultima "Nueva Nota 1"
-		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "Nota Nueva 1",PO_View.getTimeout() );
-		//Ahora nos desconectamos
-		PO_PrivateView.clickOption(driver, "logout", "text", "Identifícate");
-	}
-	 */
-
-
 
 }

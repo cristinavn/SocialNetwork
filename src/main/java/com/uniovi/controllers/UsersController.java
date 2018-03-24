@@ -153,10 +153,7 @@ public class UsersController {
 		String email = auth.getName();
 		User activeUser = usersService.getUserByEmail(email);
 		User enviar = usersService.getUser(id);
-		Invitation peticion = new Invitation(activeUser,enviar);
-		invitationService.addPeticion(peticion);
-		activeUser.getEnviadas().add(peticion);
-		enviar.getRecibidas().add(peticion);
+		invitationService.sendInvitation(activeUser,enviar);
 		return "redirect:/user/list";
 	}
 	

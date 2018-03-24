@@ -43,14 +43,7 @@ public class InvitationController {
 	@RequestMapping("/invitation/{id}/acept")
 	public String acept(Model model, @PathVariable Long id){
 		Invitation invitation = invitationService.find(id);
-		User usuarioEnviada = invitation.getEnviada();
-		User usuarioRecibida = invitation.getRecibida();
-		usuarioEnviada.getFriends().add(usuarioRecibida);
-		usuarioRecibida.getFriends().add(usuarioEnviada);
-		usersService.save(usuarioEnviada);
-		usersService.save(usuarioRecibida);
-		usuarioEnviada.getEnviadas().remove(invitation);
-		usuarioRecibida.getRecibidas().remove(invitation);
+		usersService.aceptInvitation(invitation);
 		invitationService.delete(invitation);
 		return "redirect:/invitation/list";
 	}

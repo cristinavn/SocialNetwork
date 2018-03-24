@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.uniovi.entities.Invitation;
 import com.uniovi.entities.User;
 import com.uniovi.repositories.UsersRepository;
 
@@ -68,4 +69,16 @@ public class UsersService {
 		Page<User> friends = usersRepository.getFriends(email,pageable);
 		return friends;
 	}
+
+	public void aceptInvitation(Invitation invitation) {
+		User usuarioEnviada = invitation.getEnviada();
+		User usuarioRecibida = invitation.getRecibida();
+		usuarioEnviada.getFriends().add(usuarioRecibida);
+		usuarioRecibida.getFriends().add(usuarioEnviada);
+		save(usuarioEnviada);
+		save(usuarioRecibida);
+		usuarioEnviada.getEnviadas().remove(invitation);
+		usuarioRecibida.getRecibidas().remove(invitation);
+	}
+
 }

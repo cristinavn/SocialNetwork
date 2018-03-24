@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.uniovi.entities.Invitation;
+import com.uniovi.entities.User;
 import com.uniovi.repositories.InvitationRepository;
 
 @Service
@@ -22,6 +23,12 @@ public class InvitationService {
 	public void delete(Invitation invitation) {
 		invitationRepository.delete(invitation);
 	}
-	
+
+	public void sendInvitation(User activeUser, User enviar) {
+		Invitation peticion = new Invitation(activeUser,enviar);
+		addPeticion(peticion);
+		activeUser.getEnviadas().add(peticion);
+		enviar.getRecibidas().add(peticion);
+	}
 
 }

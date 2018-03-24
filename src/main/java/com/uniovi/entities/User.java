@@ -139,4 +139,11 @@ public class User {
 	public Set<User> getFriends(){
 		return friends;
 	}
+
+	public boolean isFriend(User usuario) {
+		for(User u: friends) {
+			if(u.equals(usuario))return true;
+		}
+		return false;
+	}
 }

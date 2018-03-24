@@ -59,9 +59,13 @@ public class PostController {
 		String email = auth.getName();
 		User activeUser = usersService.getUserByEmail(email);
 		User usuario = usersService.getUser(user);
+		if(activeUser.isFriend(usuario)) {
 		model.addAttribute("postsList", usuario.getPosts());
 		model.addAttribute("amigo", true);
 		model.addAttribute("nombreAmigo", usuario.getName());
+		}else {
+			return "redirect:/friends";
+		}
 		return "post/list";
 	}
 

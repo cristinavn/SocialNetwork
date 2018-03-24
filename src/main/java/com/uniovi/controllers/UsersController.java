@@ -43,7 +43,7 @@ public class UsersController {
 
 	@Autowired
 	private InvitationService invitationService;
-	
+
 	@Autowired
 	private SignUpFormValidator signUpFormValidator;
 
@@ -51,13 +51,13 @@ public class UsersController {
 	private RolesService rolesService;
 
 	@RequestMapping("/user/list")
-	public String getList(Model model, Pageable pageable, Principal principal, 
-			@RequestParam(value = "", required=false) String searchText,HttpServletRequest request){
-		if (getActiveUserRole().equals("ROLE_ADMIN") && request.getSession().getAttribute("admin") != null 
+	public String getList(Model model, Pageable pageable, Principal principal,
+			@RequestParam(value = "", required = false) String searchText, HttpServletRequest request) {
+		if (getActiveUserRole().equals("ROLE_ADMIN") && request.getSession().getAttribute("admin") != null
 				&& (boolean) request.getSession().getAttribute("admin")) {
 			return "redirect:/admin/edit";
 		}
-		if(request.getSession().getAttribute("admin") != null 
+		if (request.getSession().getAttribute("admin") != null
 				&& (boolean) request.getSession().getAttribute("admin")) {
 			SecurityContextHolder.clearContext();
 			return "redirect:/admin/login?error";
@@ -80,8 +80,7 @@ public class UsersController {
 	}
 
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
-	public String setUser(@Validated User user, BindingResult result, Model
-			model) {
+	public String setUser(@Validated User user, BindingResult result, Model model) {
 		signUpFormValidator.validate(user, result);
 		if (result.hasErrors()) {
 			return "signup";
@@ -97,40 +96,46 @@ public class UsersController {
 			HttpServletRequest request) {
 		if (error != null)
 			model.addAttribute("loginError", true);
-		else	
+		else
 			model.addAttribute("loginError", false);
-		
+
 		return "login";
 	}
 
-	@RequestMapping(value="/admin/login")
-	public String login(HttpServletRequest request,Model model, 
-			@RequestParam(value = "error", required = false) String error){
+	@RequestMapping(value = "/admin/login")
+	public String login(HttpServletRequest request, Model model,
+			@RequestParam(value = "error", required = false) String error) {
 		HttpSession session = request.getSession(true);
 		if (session.getAttribute("admin") == null) {
 			session.setAttribute("admin", true);
 		}
 		if (error != null)
 			model.addAttribute("adminLoginError", true);
-		else	
+		else
 			model.addAttribute("adminLoginError", false);
 		return "/admin/login";
 	}
 
-	@RequestMapping(value="/admin/edit")
-	public String login(Model model){
+	@RequestMapping(value = "/admin/edit")
+	public String login(Model model) {
 		model.addAttribute("usersList", usersService.getUsers());
 		return "/admin/edit";
 	}
-	@RequestMapping(value="/admin/edit/update")
-	public String update(Model model){
+
+	@RequestMapping(value = "/admin/edit/update")
+	public String update(Model model) {
 		model.addAttribute("usersList", usersService.getUsers());
 		return "/admin/edit :: tableUsers";
 	}
-	
-	@RequestMapping(value="/admin/{id}/delete")
+
+	@RequestMapping(value = "/admin/{id}/delete")
 	public String delete(@PathVariable Long id) {
-		usersService.deleteUser(id);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = auth.getName();
+		User activeUser = usersService.getUserByEmail(email);
+		if (activeUser.getRole().equals("ROLE_ADMIN")) {
+			usersService.deleteUser(id);
+		}
 		return "redirect:/admin/edit";
 	}
 
@@ -139,21 +144,21 @@ public class UsersController {
 		model.addAttribute("usersList", usersService.getUsers());
 		return "home";
 	}
-	
-	@RequestMapping(value="/user/{id}/send", method=RequestMethod.GET)
-	public String setResendTrue(Model model, @PathVariable Long id){
+
+	@RequestMapping(value = "/user/{id}/send", method = RequestMethod.GET)
+	public String setResendTrue(Model model, @PathVariable Long id) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
 		User activeUser = usersService.getUserByEmail(email);
 		User enviar = usersService.getUser(id);
-		invitationService.sendInvitation(activeUser,enviar);
+		invitationService.sendInvitation(activeUser, enviar);
 		return "redirect:/user/list";
 	}
-	
+
 	@RequestMapping("/user/list/update")
-	public String updateList(Model model, Pageable pageable, Principal principal){
+	public String updateList(Model model, Pageable pageable, Principal principal) {
 		Page<User> users = usersService.getUsers(pageable);
-		model.addAttribute("usersList", users.getContent() );
+		model.addAttribute("usersList", users.getContent());
 		model.addAttribute("page", users);
 		return "user/list :: tableUsers";
 	}

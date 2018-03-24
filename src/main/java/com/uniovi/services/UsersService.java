@@ -42,6 +42,11 @@ public class UsersService {
 	}
 	
 	public void deleteUser(Long id) {
+		User user = usersRepository.findOne(id);
+		for(User u: user.getFriends()) {
+			u.getFriends().remove(user);
+			user.getFriends().remove(u);
+		}
 		usersRepository.delete(id);
 	}
 	

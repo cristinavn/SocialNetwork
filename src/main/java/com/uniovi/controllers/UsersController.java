@@ -73,24 +73,6 @@ public class UsersController {
 		return "user/list";
 	}
 
-	@RequestMapping(value="/user/add")
-	public String getUser(Model model){
-		model.addAttribute("usersList", usersService.getUsers());
-		return "user/add";
-	}
-
-	@RequestMapping(value="/user/add", method=RequestMethod.POST )
-	public String setUser(@ModelAttribute User user){
-		usersService.addUser(user);
-		return "redirect:/user/list";
-	}
-
-	@RequestMapping("/user/delete/{id}" )
-	public String delete(@PathVariable Long id){
-		usersService.deleteUser(id);
-		return "redirect:/user/list";
-	}
-
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String signup(Model model) {
 		model.addAttribute("user", new User());
@@ -139,6 +121,17 @@ public class UsersController {
 	public String login(Model model){
 		model.addAttribute("usersList", usersService.getUsers());
 		return "/admin/edit";
+	}
+	@RequestMapping(value="/admin/edit/update")
+	public String update(Model model){
+		model.addAttribute("usersList", usersService.getUsers());
+		return "/admin/edit :: tableUsers";
+	}
+	
+	@RequestMapping(value="/admin/{id}/delete")
+	public String delete(@PathVariable Long id) {
+		usersService.deleteUser(id);
+		return "redirect:/admin/edit";
 	}
 
 	@RequestMapping(value = { "/home" }, method = RequestMethod.GET)

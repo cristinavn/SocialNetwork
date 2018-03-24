@@ -10,19 +10,19 @@
 
 	<name>SocialNetwork</name>
 	<description>Red Social Sistemas Distribuidos e Internet</description>
-	
+
 	<developers>
-        <developer>
-            <id>cristinavn</id>
-            <name>Cristina Vena Naredo</name>
-            <email>venanar@hotmail.com</email>
-        </developer>
-        <developer>
-            <id>avancasielles</id>
-            <name>Iván Casielles Álvarez</name>
-            <email></email>
-        </developer>
-    </developers>
+		<developer>
+			<id>cristinavn</id>
+			<name>Cristina Vena Naredo</name>
+			<email>venanar@hotmail.com</email>
+		</developer>
+		<developer>
+			<id>avancasielles</id>
+			<name>Iván Casielles Álvarez</name>
+			<email></email>
+		</developer>
+	</developers>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -73,7 +73,7 @@
 		<dependency>
 			<groupId>net.sourceforge.nekohtml</groupId>
 			<artifactId>nekohtml</artifactId>
-			<version>1.9.21</version>
+			<version>1.9.21</version><!--$NO-MVN-MAN-VER$ -->
 		</dependency>
 
 		<dependency>

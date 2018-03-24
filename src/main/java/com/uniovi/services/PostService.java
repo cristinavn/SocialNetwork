@@ -1,5 +1,13 @@
 package com.uniovi.services;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +39,21 @@ public class PostService {
 		List<Post> posts = new ArrayList<Post>();
 		postsRepository.findByUser(activeUser).forEach(posts::add);
 		return posts;
+	}
+
+	public String saveImagen(File image) {
+		String url = image.getName();
+		try {
+			InputStream is = new FileInputStream(image);
+			Files.copy(is, Paths.get("src/main/resources/static/fotossubidas/" + url),
+					 StandardCopyOption.REPLACE_EXISTING);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return url;
 	}
 	
 	

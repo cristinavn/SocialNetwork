@@ -16,6 +16,7 @@ public class Post {
 	private String description;
 	private String title;
 	private LocalDate date;
+	private String imageUrl;
 	
 	@ManyToOne
 	@JoinColumn(name = "user_id")
@@ -79,6 +80,14 @@ public class Post {
 	@Override
 	public String toString() {
 		return "Post [id=" + id + ", description=" + description + ", title=" + title + ", user=" + user + "]";
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 	

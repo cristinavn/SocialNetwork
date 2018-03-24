@@ -1,6 +1,9 @@
 package com.uniovi.controllers;
 
-import javax.websocket.server.PathParam;
+
+
+
+import java.io.File;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.uniovi.entities.Post;
 import com.uniovi.entities.User;
@@ -33,10 +37,11 @@ public class PostController {
 	}
 
 	@RequestMapping(value="/post/add", method=RequestMethod.POST )
-	public String setPost(@ModelAttribute Post post){
+	public String setPost(@ModelAttribute Post post, @RequestParam("photo") File image){
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
 		User activeUser = usersService.getUserByEmail(email);
+		post.setImageUrl(postService.saveImagen(image));
 		post.setUser(activeUser);
 		postService.addPost(post);
 		return "redirect:/post/list";
@@ -63,10 +68,10 @@ public class PostController {
 		model.addAttribute("postsList", usuario.getPosts());
 		model.addAttribute("amigo", true);
 		model.addAttribute("nombreAmigo", usuario.getName());
+		return "post/list";
 		}else {
 			return "redirect:/friends";
 		}
-		return "post/list";
 	}
 
 }

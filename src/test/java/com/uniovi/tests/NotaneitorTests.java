@@ -5,8 +5,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import javax.lang.model.element.Element;
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

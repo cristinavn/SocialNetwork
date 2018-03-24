@@ -48,7 +48,9 @@ public class InsertSampleDataService {
 		user7.setPassword("123456");
 		user7.setRole(rolesService.getRoles()[1]);
 		
-		Set user1Posts = new HashSet<Post>() {
+		Set<Post> user1Posts = new HashSet<Post>() {
+			private static final long serialVersionUID = 1L;
+
 			{
 				Post p1 = new Post("Post 1", "My first post", user1);
 				p1.setDate(LocalDate.of(2018, 2, 25));
@@ -58,7 +60,9 @@ public class InsertSampleDataService {
 		};
 		user1.setPosts(user1Posts);
 		
-		Set user2Posts = new HashSet<Post>() {
+		Set<Post> user2Posts = new HashSet<Post>() {
+			private static final long serialVersionUID = 1L;
+
 			{
 				add(new Post("Post 3", "My first post", user2));
 				add(new Post("Post 4", "My second post", user2));
@@ -66,7 +70,9 @@ public class InsertSampleDataService {
 		};
 		user2.setPosts(user2Posts);
 		
-		Set user3Posts = new HashSet<Post>() {
+		Set<Post> user3Posts = new HashSet<Post>() {
+			private static final long serialVersionUID = 1L;
+
 			{
 				add(new Post("Post 5", "My first post", user3));
 				add(new Post("Post 6", "My second post", user3));

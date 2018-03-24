@@ -16,14 +16,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.uniovi.entities.Invitation;
 import com.uniovi.entities.User;
 import com.uniovi.services.InvitationService;
 import com.uniovi.services.RolesService;
@@ -130,10 +128,7 @@ public class UsersController {
 
 	@RequestMapping(value = "/admin/{id}/delete")
 	public String delete(@PathVariable Long id) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String email = auth.getName();
-		User activeUser = usersService.getUserByEmail(email);
-		if (activeUser.getRole().equals("ROLE_ADMIN")) {
+		if (getActiveUserRole().equals("ROLE_ADMIN")) {
 			usersService.deleteUser(id);
 		}
 		return "redirect:/admin/edit";
@@ -146,7 +141,7 @@ public class UsersController {
 	}
 
 	@RequestMapping(value = "/user/{id}/send", method = RequestMethod.GET)
-	public String setResendTrue(Model model, @PathVariable Long id) {
+	public String sendInvitation(Model model, @PathVariable Long id) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
 		User activeUser = usersService.getUserByEmail(email);

@@ -1,13 +1,15 @@
 package com.uniovi.entities;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
+
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Post {
@@ -16,34 +18,30 @@ public class Post {
 	private Long id;
 	private String description;
 	private String title;
-	private LocalDate date;
-	
+	@Temporal(TemporalType.DATE)
+	private Date date;
+
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
-	
+
 	public Post() {}
-	
+
 	public Post(String title, String description){
 		super();
 		this.title = title;
 		this.description = description;
-		this.date = LocalDate.now();
+		this.date = new Date();
 	}
-	
+
 	public Post(Long id, String title, String description) {
 		this(title, description);
 		this.id= id;
 	}
-	
+
 	public Post(String title, String description, User user) {
 		this(title, description);
 		this.user = user;
-	}
-
-	@PrePersist
-	void onCreate() {
-		this.setDate(LocalDate.now());
 	}
 	
 	public String getDescription() {
@@ -65,28 +63,28 @@ public class Post {
 	public User getUser() {
 		return user;
 	}
-	
+
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
 
-	public LocalDate getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(LocalDate date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Post [id=" + id + ", description=" + description + ", title=" + title + ", user=" + user + "]";
 	}
 
-	
-	
+
+
 }

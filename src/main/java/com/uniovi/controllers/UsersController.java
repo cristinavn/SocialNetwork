@@ -4,7 +4,6 @@ import java.security.Principal;
 import java.util.LinkedList;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.uniovi.entities.Invitation;
 import com.uniovi.entities.User;
@@ -32,12 +30,12 @@ import com.uniovi.services.UsersService;
 import com.uniovi.validators.SignUpFormValidator;
 
 @Controller
-@SessionAttributes("admin")
 public class UsersController {
 
+	
 	@Autowired
 	private UsersService usersService;
-
+	
 	@Autowired
 	private SecurityService securityService;
 
@@ -85,30 +83,10 @@ public class UsersController {
 		return "redirect:/user/list";
 	}
 
-	@RequestMapping("/user/details/{id}" )
-	public String getDetail(Model model, @PathVariable Long id){
-		model.addAttribute("user", usersService.getUser(id));
-		return "user/details";
-	}
-
 	@RequestMapping("/user/delete/{id}" )
 	public String delete(@PathVariable Long id){
 		usersService.deleteUser(id);
 		return "redirect:/user/list";
-	}
-
-	@RequestMapping(value="/user/edit/{id}")
-	public String getEdit(Model model, @PathVariable Long id){
-		User user = usersService.getUser(id);
-		model.addAttribute("user", user);
-		return "user/edit";
-	}
-
-	@RequestMapping(value="/user/edit/{id}", method=RequestMethod.POST)
-	public String setEdit(Model model, @PathVariable Long id, @ModelAttribute User user){
-		user.setId(id);
-		usersService.addUser(user);
-		return "redirect:/user/details/"+id;
 	}
 
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
@@ -116,7 +94,6 @@ public class UsersController {
 		model.addAttribute("user", new User());
 		return "signup";
 	}
-
 
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	public String setUser(@Validated User user, BindingResult result, Model
@@ -140,25 +117,6 @@ public class UsersController {
 			model.addAttribute("loginError", false);
 		
 		return "login";
-	}
-
-	@RequestMapping(value="/admin/login")
-	public String login(HttpServletRequest request,Model model, 
-			@RequestParam(value = "error", required = false) String error){
-		HttpSession session = request.getSession(true);
-		if (session.getAttribute("admin") == null) {
-			session.setAttribute("admin", true);
-		}
-		if (error != null)
-			model.addAttribute("adminLoginError", true);
-		else	
-			model.addAttribute("adminLoginError", false);
-		return "/admin/login";
-	}
-
-	@RequestMapping(value="/admin/edit")
-	public String login(){
-		return "/admin/edit";
 	}
 
 	@RequestMapping(value = { "/home" }, method = RequestMethod.GET)

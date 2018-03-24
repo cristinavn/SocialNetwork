@@ -1,5 +1,7 @@
 package com.uniovi.controllers;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -35,6 +37,7 @@ public class PostController {
 		String email = auth.getName();
 		User activeUser = usersService.getUserByEmail(email);
 		post.setUser(activeUser);
+		post.setDate(new Date());
 		postService.addPost(post);
 		return "redirect:/post/list";
 	}

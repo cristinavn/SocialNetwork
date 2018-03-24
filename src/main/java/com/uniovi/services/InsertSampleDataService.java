@@ -1,6 +1,6 @@
 package com.uniovi.services;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -51,7 +51,7 @@ public class InsertSampleDataService {
 		Set user1Posts = new HashSet<Post>() {
 			{
 				Post p1 = new Post("Post 1", "My first post", user1);
-				p1.setDate(LocalDate.of(2018, 2, 25));
+				p1.setDate(new Date());
 				add(p1);
 				add(new Post("Post 2", "My second post", user1));
 			}

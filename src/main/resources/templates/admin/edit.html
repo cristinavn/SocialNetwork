@@ -23,6 +23,24 @@
 					<tr th:each="user : ${usersList}">
 						<td class="text-left" th:text="${user.name}">Cris</td>
 						<td class="text-left" th:text="${user.email}">cris@x.es</td>
+						<td> 
+						 <div> 
+		   			
+		   			<button type="button" th:id="${'deleteButton' + user.id}" 
+		   					class="btn btn-info" th:text="#{user.delete}">Eliminar usuario</button>
+					<script th:inline="javascript">
+					  /*<![CDATA[*/
+					  $( "#deleteButton[[${user.id}]]" ).click(function() {
+						  $.get( "/admin/edit/[[${user.id}]]/delete", function( data ) {
+							  var urlUpdate = '/admin/edit/update';
+							  $("#tableUsers").load(urlUpdate);
+						  });
+					  });
+					  /*]]>*/
+					</script>  
+		   		</div>
+		   		
+						 </td>
 					</tr>
 				</tbody>
 			</table>

@@ -18,6 +18,8 @@ public class Post {
 	private Long id;
 	private String description;
 	private String title;
+	private String imageUrl;
+	
 	@Temporal(TemporalType.DATE)
 	private Date date;
 
@@ -85,6 +87,17 @@ public class Post {
 		return "Post [id=" + id + ", description=" + description + ", title=" + title + ", user=" + user + "]";
 	}
 
+	public String getImageUrl() {
+		return imageUrl;
+	}
 
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
 
+	public boolean hasPhoto() {
+		if(imageUrl!=null)return true;
+		return false;
+	}
+	
 }

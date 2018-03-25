@@ -18,4 +18,21 @@ public class PO_PostView {
 		By boton = By.className("btn");
 		driver.findElement(boton).click();
 	}
+
+	public static void fillFormPhoto(WebDriver driver, String titlep, String descriptionp, String photoUrl) {
+		WebElement title = driver.findElement(By.name("title"));
+		title.click();
+		title.clear();
+		title.sendKeys(titlep);
+		WebElement description = driver.findElement(By.name("description"));
+		description.click();
+		description.clear();
+		description.sendKeys(descriptionp);
+		WebElement photo = driver.findElement(By.name("photo"));
+		photoUrl=System.getProperty("user.dir")+photoUrl;
+		photo.sendKeys(photoUrl);
+		By boton = By.className("btn");
+		driver.findElement(boton).click();
+		
+	}
 }

@@ -49,6 +49,7 @@ public class InsertSampleDataService {
 		user7.setRole(rolesService.getRoles()[1]);
 		
 		Set<Post> user1Posts = new HashSet<Post>() {
+
 			/**
 			 * 
 			 */
@@ -77,6 +78,7 @@ public class InsertSampleDataService {
 		user2.setPosts(user2Posts);
 		
 		Set<Post> user3Posts = new HashSet<Post>() {
+
 			/**
 			 * 
 			 */

@@ -16,17 +16,17 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="user : ${invitations}">
-						<td  class="text-left" th:text="${user.name}">Cris</td>
-						<td  class="text-left" th:text="${user.email}">cris@x.es</td>
+					<tr th:each="invitation : ${invitations}">
+						<td  class="text-left" th:text="${invitation.enviada.name}">Cris</td>
+						<td  class="text-left" th:text="${invitation.enviada.email}">cris@x.es</td>
 						<td> <div> 
 		   			
-		   			<button type="button" th:id="${'aceptButton' + user.id}" 
+		   			<button type="button" th:id="${'aceptButton' + invitation.id}" 
 		   					class="btn btn-info" th:text="#{invitation.acept}">Aceptar invitacion</button>
 					<script th:inline="javascript">
 					  /*<![CDATA[*/
-					  $( "#aceptButton[[${user.id}]]" ).click(function() {
-						  $.get( "/invitation/[[${user.id}]]/acept", function( data ) {
+					  $( "#aceptButton[[${invitation.id}]]" ).click(function() {
+						  $.get( "/invitation/[[${invitation.id}]]/acept", function( data ) {
 							  var numberPage = [[${param.page}]];
 							  var urlUpdate = '/invitation/list/update';
 							  if ( numberPage != null ){

@@ -31,4 +31,7 @@ public class Invitation {
 		return recibida;
 	}
 
+	public Long getId() {
+		return id;
+	}
 }

@@ -362,6 +362,27 @@ public class NotaneitorTests {
 		// COmprobamos que entramos en la pagina privada de Alumno
 		PO_View.checkElement(driver, "text", "Administrador");
 	}
+	
+	//12.1 [PubFot1Val] Crear una publicación con datos válidos y una foto adjunta.
+	@Test
+	public void PR12_1PubFot1Val() {
+		// Hacemos login con éxito
+				PR02_1InVal();
+				// Accedemos a la viste de nueva publicación
+				List<WebElement> elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'post/add')]");
+				elementos.get(0).click();
+				// Comprobamos que accedemos a la vista
+				PO_RegisterView.checkKey(driver, "post.add", PO_Properties.getSPANISH());
+				// Rellenamos el formulario con datos válidos
+				PO_PostView.fillForm(driver, "Nueva publicación 3", "Esta es mi primera publicación fon foto");
+				// Comprobamos que nos redirige a home
+				PO_View.checkElement(driver, "text", "Esta es mi primera publicación con foto");
+	}
+	//12.1 [PubFot2Val] Crear una publicación con datos válidos y sin una foto adjunta.
+	@Test
+	public void PR12_1PubFot2Val() {
+		PR09_1PubVal();
+	}
 
 	// PR13.2. Inicio de sesión como administrador con datos inválidos (usar los
 	// datos de un usuario

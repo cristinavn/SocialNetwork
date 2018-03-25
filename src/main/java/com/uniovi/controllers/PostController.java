@@ -1,6 +1,8 @@
 package com.uniovi.controllers;
 
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,6 +42,7 @@ public class PostController {
 		String email = auth.getName();
 		User activeUser = usersService.getUserByEmail(email);
 		post.setUser(activeUser);
+		post.setDate(LocalDate.now());
 		postService.addPost(post);
 		if(image!=null) {
 			post.setImageUrl(postService.saveImagen(image, post));
@@ -65,7 +68,7 @@ public class PostController {
 		User activeUser = usersService.getUserByEmail(email);
 		User usuario = usersService.getUser(user);
 		if (activeUser.isFriend(usuario)) {
-			model.addAttribute("postsList", usuario.getPosts());
+			model.addAttribute("postsList", postService.getPosts(usuario));
 			model.addAttribute("amigo", true);
 			model.addAttribute("nombreAmigo", usuario.getName());
 			return "post/list";

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.uniovi.entities.Invitation;
-import com.uniovi.entities.User;
 import com.uniovi.services.InvitationService;
 import com.uniovi.services.UsersService;
 
@@ -30,10 +29,10 @@ public class InvitationController {
 	
 	@RequestMapping("/invitation/list")
 	public String getList(Model model, Pageable pageable, Principal principal){
-		Page<User> invitations = new PageImpl<User>(new LinkedList<User>());
+		Page<Invitation> invitations = new PageImpl<Invitation>(new LinkedList<Invitation>());
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
-		invitations = usersService.getInvitationsReceibed(email,pageable);
+		invitations = invitationService.getInvitationsReceibed(email,pageable);
 		model.addAttribute("invitations", invitations.getContent());
 		model.addAttribute("page", invitations);
 		return "/invitation/list";
@@ -49,10 +48,10 @@ public class InvitationController {
 	
 	@RequestMapping("/invitation/list/update")
 	public String updateList(Model model, Pageable pageable, Principal principal){
-		Page<User> invitations = new PageImpl<User>(new LinkedList<User>());
+		Page<Invitation> invitations = new PageImpl<Invitation>(new LinkedList<Invitation>());
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
-		invitations = usersService.getInvitationsReceibed(email,pageable);
+		invitations = invitationService.getInvitationsReceibed(email,pageable);
 		model.addAttribute("invitations", invitations.getContent());
 		model.addAttribute("page", invitations);
 		return "invitation/list :: tableUsers";

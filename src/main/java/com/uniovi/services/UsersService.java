@@ -61,11 +61,6 @@ public class UsersService {
 		return marks;
 	}
 
-	public Page<User> getInvitationsReceibed(String email, Pageable pageable) {
-		Page<User> invitations = usersRepository.getInvitationsReceibed(email,pageable);
-		return invitations;
-	}
-
 	public void save(User user) {
 		usersRepository.save(user);
 	}

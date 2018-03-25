@@ -42,10 +42,10 @@ public class PostService {
 	}
 
 	public String saveImagen(MultipartFile image, Post post) {
-		String url ="static/fotossubidas/" +post.getId()+"."+FilenameUtils.getExtension(image.getOriginalFilename());
+		String url =post.getId()+"."+FilenameUtils.getExtension(image.getOriginalFilename());
 		try {
 			InputStream is = image.getInputStream();
-			Files.copy(is, Paths.get("src/main/resources/"+url),
+			Files.copy(is, Paths.get("src/main/resources/static/fotossubidas/" +url),
 					 StandardCopyOption.REPLACE_EXISTING);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

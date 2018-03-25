@@ -435,8 +435,8 @@ public class NotaneitorTests {
 		// Rellenamos el formulario.
 		PO_LoginView.fillForm(driver, "maria@prueba.es", "123456");
 		//Borramos al usuario 1
-		driver.navigate().to("http://localhost:8090/admin/2/delete");
-		PO_View.checkElement(driver, "text", "error");
+		driver.navigate().to("http://localhost:8090/admin/edit/2/delete");
+		PO_View.checkElement(driver, "text", "Access is denied");
 		driver.navigate().back();
 		PO_NavView.clickOption(driver, "logout", "class", "btn btn-primary");
 		//intentamos intrar con el usuario 2 y lo conseguimos

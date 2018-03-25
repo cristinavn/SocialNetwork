@@ -126,11 +126,9 @@ public class UsersController {
 		return "/admin/edit :: tableUsers";
 	}
 
-	@RequestMapping(value = "/admin/{id}/delete")
+	@RequestMapping(value = "/admin/edit/{id}/delete")
 	public String delete(@PathVariable Long id) {
-		if (getActiveUserRole().equals("ROLE_ADMIN")) {
-			usersService.deleteUser(id);
-		}
+		usersService.deleteUser(id);
 		return "redirect:/admin/edit";
 	}
 

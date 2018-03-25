@@ -13,6 +13,7 @@
 				<small class="text-left" th:text="${post.date}"></small>
 			</div>
 			<p class="text-left" th:text="${post.description}"></p>
+			<img th:if="${post.hasPhoto()}" class="image-left" id="${'image'+post.id}" th:alt="${'image'+post.id}"/>
 		</div>
 	</div>
 	<footer th:replace="fragments/footer" />

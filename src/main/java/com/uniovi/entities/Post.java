@@ -90,6 +90,10 @@ public class Post {
 		this.imageUrl = imageUrl;
 	}
 
+	public boolean hasPhoto() {
+		if(imageUrl!=null)return true;
+		return false;
+	}
 	
 	
 }

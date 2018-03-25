@@ -1,7 +1,5 @@
 package com.uniovi.services;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,8 +9,10 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.uniovi.entities.Post;
 import com.uniovi.entities.User;
@@ -41,11 +41,11 @@ public class PostService {
 		return posts;
 	}
 
-	public String saveImagen(File image) {
-		String url = image.getName();
+	public String saveImagen(MultipartFile image, Post post) {
+		String url ="static/fotossubidas/" +post.getId()+"."+FilenameUtils.getExtension(image.getOriginalFilename());
 		try {
-			InputStream is = new FileInputStream(image);
-			Files.copy(is, Paths.get("src/main/resources/static/fotossubidas/" + url),
+			InputStream is = image.getInputStream();
+			Files.copy(is, Paths.get("src/main/resources/"+url),
 					 StandardCopyOption.REPLACE_EXISTING);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

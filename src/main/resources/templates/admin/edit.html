@@ -31,7 +31,7 @@
 					<script th:inline="javascript">
 					  /*<![CDATA[*/
 					  $( "#deleteButton[[${user.id}]]" ).click(function() {
-						  $.get( "/admin/[[${user.id}]]/delete", function( data ) {
+						  $.get( "/admin/edit/[[${user.id}]]/delete", function( data ) {
 							  var urlUpdate = '/admin/edit/update';
 							  $("#tableUsers").load(urlUpdate);
 						  });

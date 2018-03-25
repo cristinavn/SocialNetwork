@@ -43,7 +43,7 @@ public class PostController {
 		post.setUser(activeUser);
 		post.setDate(new Date());
 		postService.addPost(post);
-		if(image!=null) {
+		if(!image.isEmpty()) {
 			post.setImageUrl(postService.saveImagen(image, post));
 			postService.addPost(post);
 		}

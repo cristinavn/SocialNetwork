@@ -36,7 +36,7 @@ public class PostController {
 
 	@RequestMapping(value = "/post/add", method = RequestMethod.POST)
 	public String setPost(@ModelAttribute Post post,
-			@RequestParam(value = "photo", required = false) MultipartFile image) {
+			@RequestParam("photo") MultipartFile image) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
 		User activeUser = usersService.getUserByEmail(email);

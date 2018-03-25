@@ -4,7 +4,6 @@ import java.security.Principal;
 import java.util.LinkedList;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -97,38 +96,6 @@ public class UsersController {
 			model.addAttribute("loginError", false);
 
 		return "login";
-	}
-
-	@RequestMapping(value = "/admin/login")
-	public String login(HttpServletRequest request, Model model,
-			@RequestParam(value = "error", required = false) String error) {
-		HttpSession session = request.getSession(true);
-		if (session.getAttribute("admin") == null) {
-			session.setAttribute("admin", true);
-		}
-		if (error != null)
-			model.addAttribute("adminLoginError", true);
-		else
-			model.addAttribute("adminLoginError", false);
-		return "/admin/login";
-	}
-
-	@RequestMapping(value = "/admin/edit")
-	public String login(Model model) {
-		model.addAttribute("usersList", usersService.getUsers());
-		return "/admin/edit";
-	}
-
-	@RequestMapping(value = "/admin/edit/update")
-	public String update(Model model) {
-		model.addAttribute("usersList", usersService.getUsers());
-		return "/admin/edit :: tableUsers";
-	}
-
-	@RequestMapping(value = "/admin/edit/{id}/delete")
-	public String delete(@PathVariable Long id) {
-		usersService.deleteUser(id);
-		return "redirect:/admin/edit";
 	}
 
 	@RequestMapping(value = { "/home" }, method = RequestMethod.GET)

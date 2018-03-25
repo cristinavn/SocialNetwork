@@ -374,7 +374,7 @@ public class NotaneitorTests {
 				// Comprobamos que accedemos a la vista
 				PO_RegisterView.checkKey(driver, "post.add", PO_Properties.getSPANISH());
 				// Rellenamos el formulario con datos válidos
-				PO_PostView.fillForm(driver, "Nueva publicación 3", "Esta es mi primera publicación fon foto");
+				PO_PostView.fillFormPhoto(driver, "Nueva publicación 3", "Esta es mi primera publicación con foto", "a.jpg");
 				// Comprobamos que nos redirige a home
 				PO_View.checkElement(driver, "text", "Esta es mi primera publicación con foto");
 	}

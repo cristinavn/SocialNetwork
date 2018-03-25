@@ -1,6 +1,6 @@
 package com.uniovi.services;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -49,11 +49,15 @@ public class InsertSampleDataService {
 		user7.setRole(rolesService.getRoles()[1]);
 		
 		Set<Post> user1Posts = new HashSet<Post>() {
+
+			/**
+			 * 
+			 */
 			private static final long serialVersionUID = 1L;
 
 			{
 				Post p1 = new Post("Post 1", "My first post", user1);
-				p1.setDate(LocalDate.of(2018, 2, 25));
+				p1.setDate(new Date());
 				add(p1);
 				add(new Post("Post 2", "My second post", user1));
 			}
@@ -61,6 +65,9 @@ public class InsertSampleDataService {
 		user1.setPosts(user1Posts);
 		
 		Set<Post> user2Posts = new HashSet<Post>() {
+			/**
+			 * 
+			 */
 			private static final long serialVersionUID = 1L;
 
 			{
@@ -71,6 +78,10 @@ public class InsertSampleDataService {
 		user2.setPosts(user2Posts);
 		
 		Set<Post> user3Posts = new HashSet<Post>() {
+
+			/**
+			 * 
+			 */
 			private static final long serialVersionUID = 1L;
 
 			{

@@ -1,7 +1,6 @@
 package com.uniovi.controllers;
 
-
-import java.time.LocalDate;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -42,7 +41,7 @@ public class PostController {
 		String email = auth.getName();
 		User activeUser = usersService.getUserByEmail(email);
 		post.setUser(activeUser);
-		post.setDate(LocalDate.now());
+		post.setDate(new Date());
 		postService.addPost(post);
 		if(image!=null) {
 			post.setImageUrl(postService.saveImagen(image, post));

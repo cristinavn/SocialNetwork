@@ -4,7 +4,6 @@ import java.security.Principal;
 import java.util.LinkedList;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.uniovi.entities.User;
 import com.uniovi.services.InvitationService;
@@ -30,12 +28,12 @@ import com.uniovi.services.UsersService;
 import com.uniovi.validators.SignUpFormValidator;
 
 @Controller
-@SessionAttributes("admin")
 public class UsersController {
 
+	
 	@Autowired
 	private UsersService usersService;
-
+	
 	@Autowired
 	private SecurityService securityService;
 
